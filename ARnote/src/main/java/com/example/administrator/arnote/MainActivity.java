@@ -1,3 +1,5 @@
+/*
+
 package com.example.administrator.arnote;
 
 import android.app.ActivityManager;
@@ -42,13 +44,13 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "当前设备不支持OpenGL ES 2.0!", Toast.LENGTH_SHORT).show();
         }
 
-        /*
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync((OnMapReadyCallback) this);
-        */
+//
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_main);
+//        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+//        mapFragment.getMapAsync((OnMapReadyCallback) this);
+//
 
     }
 
@@ -116,3 +118,4 @@ public class MainActivity extends AppCompatActivity {
     }
 
 }
+*/
