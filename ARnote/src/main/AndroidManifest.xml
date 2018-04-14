@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.administrator.VuforiaSamples">
+    package="com.IDS.administrator.arnote">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -32,7 +32,7 @@
         -->
 
         <activity
-            android:name=".ui.ActivityList.ActivitySplashScreen"
+            android:name="com.IDS.administrator.arnote.VuforiaSamples.ui.ActivityList.ActivitySplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:screenOrientation="portrait"
             android:noHistory="true"
@@ -44,69 +44,69 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.ActivityList.ActivityLauncher"
+            android:name="com.IDS.administrator.arnote.VuforiaSamples.ui.ActivityList.ActivityLauncher"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:screenOrientation="portrait"
             >
         </activity>
         <activity
-            android:name=".ui.ActivityList.AboutScreen"
+            android:name="com.IDS.administrator.arnote.VuforiaSamples.ui.ActivityList.AboutScreen"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:screenOrientation="portrait"
             android:noHistory="true"
             >
         </activity>
         <activity
-            android:name=".app.ImageTargets.ImageTargets"
+            android:name="com.IDS.administrator.arnote.VuforiaSamples.app.ImageTargets.ImageTargets"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:theme="@style/SampleAppsTheme"
             android:launchMode="singleTask"
             >
         </activity>
         <activity
-            android:name=".app.VuMark.VuMark"
+            android:name="com.IDS.administrator.arnote.VuforiaSamples.app.VuMark.VuMark"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:theme="@style/SampleAppsTheme"
             android:launchMode="singleTask"
             >
         </activity>
         <activity
-            android:name=".app.TextRecognition.TextReco"
+            android:name="com.IDS.administrator.arnote.VuforiaSamples.app.TextRecognition.TextReco"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:theme="@style/SampleAppsTheme"
             android:launchMode="singleTask"
                 >
         </activity>
         <activity
-            android:name=".app.CylinderTargets.CylinderTargets"
+            android:name="com.IDS.administrator.arnote.VuforiaSamples.app.CylinderTargets.CylinderTargets"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:theme="@style/SampleAppsTheme"
             android:launchMode="singleTask"
                 >
         </activity>
         <activity
-            android:name=".app.VirtualButtons.VirtualButtons"
+            android:name="com.IDS.administrator.arnote.VuforiaSamples.app.VirtualButtons.VirtualButtons"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:theme="@style/SampleAppsTheme"
             android:launchMode="singleTask"
             >
         </activity>
         <activity
-            android:name=".app.UserDefinedTargets.UserDefinedTargets"
+            android:name="com.IDS.administrator.arnote.VuforiaSamples.app.UserDefinedTargets.UserDefinedTargets"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:theme="@style/SampleAppsTheme"
             android:launchMode="singleTask"
             >
         </activity>
         <activity
-            android:name=".app.MultiTargets.MultiTargets"
+            android:name="com.IDS.administrator.arnote.VuforiaSamples.app.MultiTargets.MultiTargets"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:theme="@style/SampleAppsTheme"
             android:launchMode="singleTask"
             >
         </activity>
         <activity
-            android:name=".app.CloudRecognition.CloudReco"
+            android:name="com.IDS.administrator.arnote.VuforiaSamples.app.CloudRecognition.CloudReco"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:theme="@style/SampleAppsTheme"
             android:launchMode="singleTask"
@@ -114,7 +114,7 @@
         </activity>
 
         <activity
-            android:name=".app.ObjectRecognition.ObjectTargets"
+            android:name="com.IDS.administrator.arnote.VuforiaSamples.app.ObjectRecognition.ObjectTargets"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:theme="@style/SampleAppsTheme"
             android:launchMode="singleTask"
