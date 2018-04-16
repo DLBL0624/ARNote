@@ -67,5 +67,6 @@
     <string name="menu_button_green">Green</string>
         
     <string name="splash_screen_description">Vuforia Splash</string>
-    
+    <string name="error_permission_needed">\"Haven\'t received any permission Result of Camera!\"</string>
+
 </resources>

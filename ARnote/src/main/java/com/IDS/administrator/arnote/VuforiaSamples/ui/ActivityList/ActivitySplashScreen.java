@@ -9,16 +9,22 @@ countries.
 
 package com.IDS.administrator.arnote.VuforiaSamples.ui.ActivityList;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.IDS.administrator.arnote.R;
 
@@ -52,14 +58,32 @@ public class ActivitySplashScreen extends Activity
             @Override
             public void run()
             {
-                
-                Intent intent = new Intent(ActivitySplashScreen.this,
-                    ActivityLauncher.class);
-                startActivity(intent);
-                
+                if (ContextCompat.checkSelfPermission(ActivitySplashScreen.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(ActivitySplashScreen.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+                }
+                else {
+                    Intent intent = new Intent(ActivitySplashScreen.this, ActivityLauncher.class);
+                    startActivity(intent);
+                }
             }
             
         }, SPLASH_MILLIS);
+
+
+
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(ActivitySplashScreen.this, ActivityLauncher.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(), getString(R.string.error_permission_needed), Toast.LENGTH_LONG).show();
+            }
+        }
     }
     
 }

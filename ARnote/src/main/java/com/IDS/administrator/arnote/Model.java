@@ -3,16 +3,12 @@ package com.IDS.administrator.arnote;
 import java.nio.FloatBuffer;
 
 public class Model {
-    //三角面个数
     private int facetCount;
-    //顶点坐标数组
     private float[] verts;
-    //每个顶点对应的法向量数组
     private float[] vnorms;
-    //每个三角面的属性信息
     private short[] remarks;
 
-    //顶点数组转换而来的Buffer
+    //array vector -> Buffer
     private FloatBuffer vertBuffer;
 
     //每个顶点对应的法向量转换而来的Buffer
