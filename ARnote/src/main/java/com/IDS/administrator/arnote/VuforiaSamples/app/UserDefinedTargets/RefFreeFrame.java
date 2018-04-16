@@ -93,7 +93,7 @@ public class RefFreeFrame
     
     void init()
     {
-        // load the frame texture
+        // load the frame texture (from the package)
         frameGL.getTextures();
         
         trackableSource = null;
@@ -150,7 +150,7 @@ public class RefFreeFrame
         curStatus = STATUS.STATUS_CREATING;
     }
     
-    
+    //Switch the state
     void updateUIState(ImageTargetBuilder targetBuilder, int frameQuality)
     {
         // ** Elapsed time
@@ -264,7 +264,7 @@ public class RefFreeFrame
         frameGL.renderViewfinder();
     }
     
-    
+    // when switch the Trackable Source
     boolean hasNewTrackableSource()
     {
         return (trackableSource != null);

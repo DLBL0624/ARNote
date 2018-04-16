@@ -115,7 +115,7 @@ public class UserDefinedTargets extends Activity implements
         // Load any sample specific textures:
         mTextures = new Vector<Texture>();
 
-        loadTextures();  //add texture but here we don't need it.
+        loadTextures();  //add texture but here we don't need it. @todo texture 载入
         
         mGestureDetector = new GestureDetector(this, new GestureListener());
         
@@ -129,7 +129,7 @@ public class UserDefinedTargets extends Activity implements
     private class GestureListener extends
         GestureDetector.SimpleOnGestureListener
     {
-        // Used to set autofocus one second after a manual focus is triggered
+        // Used to set autofocus one second after a manual focus is triggered 自行对焦
         private final Handler autofocusHandler = new Handler();
         
         
@@ -144,7 +144,7 @@ public class UserDefinedTargets extends Activity implements
         public boolean onSingleTapUp(MotionEvent e)
         {
             boolean result = CameraDevice.getInstance().setFocusMode(
-                    CameraDevice.FOCUS_MODE.FOCUS_MODE_TRIGGERAUTO);
+                    CameraDevice.FOCUS_MODE.FOCUS_MODE_TRIGGERAUTO);// one type of focusing method provided by Vuforia
             if (!result)
                 Log.e("SingleTapUp", "Unable to trigger focus");
 
@@ -155,7 +155,7 @@ public class UserDefinedTargets extends Activity implements
                 public void run()
                 {
                     final boolean autofocusResult = CameraDevice.getInstance().setFocusMode(
-                            CameraDevice.FOCUS_MODE.FOCUS_MODE_CONTINUOUSAUTO);
+                            CameraDevice.FOCUS_MODE.FOCUS_MODE_CONTINUOUSAUTO); // one type of focusing method provided by Vuforia but better for implement AR features
 
                     if (!autofocusResult)
                         Log.e("SingleTapUp", "Unable to re-enable continuous auto-focus");
@@ -170,7 +170,7 @@ public class UserDefinedTargets extends Activity implements
     // We want to load specific textures from the APK, which we will later use
     // for rendering.
 
-    //add Texture
+    //add Texture to render
     private void loadTextures()
     {
         mTextures.add(Texture.loadTextureFromApk("TextureTeapotBlue.png",
@@ -284,7 +284,8 @@ public class UserDefinedTargets extends Activity implements
         
         mDialog.setButton(DialogInterface.BUTTON_POSITIVE,
             getString(R.string.button_OK), clickListener);
-        
+
+        //if the target image is low-quality
         mDialog.setTitle(getString(R.string.target_quality_error_title));
         
         String message = getString(R.string.target_quality_error_desc);
@@ -313,7 +314,7 @@ public class UserDefinedTargets extends Activity implements
     {
         // Do application initialization
         refFreeFrame = new RefFreeFrame(this, vuforiaAppSession);
-        refFreeFrame.init();
+        refFreeFrame.init();// just get the texture
         
         // Create OpenGL ES view:
         int depthSize = 16;
