@@ -114,12 +114,13 @@ public class UserDefinedTargets extends Activity implements
         
         // Load any sample specific textures:
         mTextures = new Vector<Texture>();
-        loadTextures();
+
+        loadTextures();  //add texture but here we don't need it.
         
         mGestureDetector = new GestureDetector(this, new GestureListener());
         
         mIsDroidDevice = android.os.Build.MODEL.toLowerCase().startsWith(
-            "droid");
+            "droid");   // Lowercase()
 
         addOverlayView(true);
     }
@@ -168,6 +169,8 @@ public class UserDefinedTargets extends Activity implements
     
     // We want to load specific textures from the APK, which we will later use
     // for rendering.
+
+    //add Texture
     private void loadTextures()
     {
         mTextures.add(Texture.loadTextureFromApk("TextureTeapotBlue.png",
@@ -341,7 +344,7 @@ public class UserDefinedTargets extends Activity implements
         // transparent once the SDK is initialized and camera ready to draw
         if (initLayout)
         {
-            mUILayout.setBackgroundColor(Color.BLACK);
+            mUILayout.setBackgroundColor(Color.BLACK);// set the background to black
         }
         
         // Adds the inflated layout to the view
