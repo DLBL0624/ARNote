@@ -325,7 +325,7 @@ public class UserDefinedTargets extends Activity implements
         mGlView.init(translucent, depthSize, stencilSize);
         
         mRenderer = new UserDefinedTargetRenderer(this, vuforiaAppSession);
-        mRenderer.setTextures(mTextures);
+        //mRenderer.setTextures(mTextures);
         mGlView.setRenderer(mRenderer);
     }
     

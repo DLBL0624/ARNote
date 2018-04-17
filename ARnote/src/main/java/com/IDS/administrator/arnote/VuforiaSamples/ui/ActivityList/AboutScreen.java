@@ -56,7 +56,7 @@ public class AboutScreen extends Activity implements OnClickListener
         Bundle extras = getIntent().getExtras();
         String webText = extras.getString("ABOUT_TEXT");
         mClassToLaunchPackage = "com.IDS.administrator.arnote";
-        Log.d("Package Name!!!!", "third mClassToLaunchPackage: " + mClassToLaunchPackage);
+        //Log.d("Package Name!!!!", "third mClassToLaunchPackage: " + mClassToLaunchPackage);
         mClassToLaunch = mClassToLaunchPackage + "."
             + extras.getString("ACTIVITY_TO_LAUNCH");
         

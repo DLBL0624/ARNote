@@ -21,6 +21,7 @@ import com.IDS.administrator.arnote.SampleApplication.utils.CubeShaders;
 import com.IDS.administrator.arnote.SampleApplication.utils.SampleUtils;
 import com.IDS.administrator.arnote.SampleApplication.utils.Teapot;
 import com.IDS.administrator.arnote.SampleApplication.utils.Texture;
+import com.IDS.administrator.arnote.SampleApplication.utils.ThreeDText;
 import com.vuforia.Device;
 import com.vuforia.Matrix44F;
 import com.vuforia.Renderer;
@@ -48,15 +49,15 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
     private Vector<Texture> mTextures;
     private int shaderProgramID;
     private int vertexHandle;
-    private int textureCoordHandle;
+    //private int textureCoordHandle;
     private int mvpMatrixHandle;
-    private int texSampler2DHandle;
+    //private int texSampler2DHandle;
     
     // Constants:
     static final float kObjectScale = 3.f;
     
     private Teapot mTeapot;
-    
+    private ThreeDText mThreeDText;
     // Reference to main activity
     private UserDefinedTargets mActivity;
     
@@ -161,32 +162,48 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
             GLES20.glUseProgram(shaderProgramID);
 
 
-
+            // @TODO 3dtext
 
             GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
-                false, 0, mTeapot.getVertices());
+                    false, 0, mThreeDText.getVertices());
 
-
-            GLES20.glVertexAttribPointer(textureCoordHandle, 2,
-                GLES20.GL_FLOAT, false, 0, mTeapot.getTexCoords());
-            
             GLES20.glEnableVertexAttribArray(vertexHandle);
-            GLES20.glEnableVertexAttribArray(textureCoordHandle);
-            
-            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
-                mTextures.get(0).mTextureID[0]);
-            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
-                modelViewProjection, 0);
-            GLES20.glUniform1i(texSampler2DHandle, 0);
 
+            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
+                    modelViewProjection, 0);
 
             GLES20.glDrawElements(GLES20.GL_TRIANGLES,
-                mTeapot.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
-                mTeapot.getIndices());
-            
+                    mTeapot.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
+                    mTeapot.getIndices());
+
             GLES20.glDisableVertexAttribArray(vertexHandle);
-            GLES20.glDisableVertexAttribArray(textureCoordHandle);
+
+
+            //TEAPOT @ToDO teapot edit
+//          GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
+//                false, 0, mTeapot.getVertices());
+
+//            GLES20.glVertexAttribPointer(textureCoordHandle, 2,
+//                    GLES20.GL_FLOAT, false, 0, mTeapot.getTexCoords());
+
+            // @todo texture switch
+//            GLES20.glEnableVertexAttribArray(vertexHandle);
+//            GLES20.glEnableVertexAttribArray(textureCoordHandle);
+//
+//            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+//            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
+//                mTextures.get(0).mTextureID[0]);
+//            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
+//                modelViewProjection, 0);
+//            //GLES20.glUniform1i(texSampler2DHandle, 0);
+//
+//
+//            GLES20.glDrawElements(GLES20.GL_TRIANGLES,
+//                mTeapot.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
+//                mTeapot.getIndices());
+//
+//            GLES20.glDisableVertexAttribArray(vertexHandle);
+//            GLES20.glDisableVertexAttribArray(textureCoordHandle);
             
             SampleUtils.checkGLError("UserDefinedTargets renderFrame");
         }
@@ -202,11 +219,12 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
         Log.d(LOGTAG, "initRendering");
         
         mTeapot = new Teapot();// the shape shown
-        
+        mThreeDText = new ThreeDText(mActivity);
         // Define clear color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f
             : 1.0f);
-        
+
+        /*
         // Now generate the OpenGL texture objects and add settings
         for (Texture t : mTextures)
         {
@@ -220,26 +238,25 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
                 t.mWidth, t.mHeight, 0, GLES20.GL_RGBA,
                 GLES20.GL_UNSIGNED_BYTE, t.mData);
         }
-        
+        */
         shaderProgramID = SampleUtils.createProgramFromShaderSrc(
             CubeShaders.CUBE_MESH_VERTEX_SHADER,
             CubeShaders.CUBE_MESH_FRAGMENT_SHADER);
         
         vertexHandle = GLES20.glGetAttribLocation(shaderProgramID,
             "vertexPosition");
-        textureCoordHandle = GLES20.glGetAttribLocation(shaderProgramID,
-            "vertexTexCoord");
+//        textureCoordHandle = GLES20.glGetAttribLocation(shaderProgramID,
+//            "vertexTexCoord");
         mvpMatrixHandle = GLES20.glGetUniformLocation(shaderProgramID,
             "modelViewProjectionMatrix");
-        texSampler2DHandle = GLES20.glGetUniformLocation(shaderProgramID,
-            "texSampler2D");
+//        texSampler2DHandle = GLES20.glGetUniformLocation(shaderProgramID,
+//            "texSampler2D");
     }
     
     
     public void setTextures(Vector<Texture> textures)
     {
         mTextures = textures;
-        
-    }
+   }
     
 }
