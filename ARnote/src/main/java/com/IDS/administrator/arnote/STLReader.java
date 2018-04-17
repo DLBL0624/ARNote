@@ -23,21 +23,16 @@ public class STLReader {
     }
 
     //更改的地方 读取的格式不对
+    // TODO: 2018/3/6 load completed
     public Model parserBinStl(InputStream in) throws IOException {
         if (stlLoadListener != null)
             stlLoadListener.onstart();
         Model model = new Model();
-        //前面80字节是文件头，用于存贮文件名；//skip the filename (80bits)
-
-
+        //skip the filename (80bits)
         in.skip(80);//file name
-        // TODO: 2018/4/10 读取 完成
-
-        //紧接着用 4 个字节的整数来描述模型的三角面片个数
-
 
         byte[] bytes = new byte[4];
-        in.read(bytes);// 读取三角面片个数
+        in.read(bytes);// number of triangles
         String str = new String(bytes);
         Log.v("ByteInput",str);
         int facetCount = Util.byte4ToInt(bytes, 0);
@@ -46,22 +41,11 @@ public class STLReader {
             in.close();
             return model;
         }
-
-        // 每个三角面片占用固定的50个字节
-        byte[] facetBytes = new byte[50 * facetCount];
-        // 将所有的三角面片读取到字节数组
+        byte[] facetBytes = new byte[50 * facetCount];// the attribute and position of each triangle
         in.read(facetBytes);
 
-
-
-
-
-        //数据读取完毕后，可以把输入流关闭
         in.close();
-
-
         parseModel(model, facetBytes);
-
 
         if (stlLoadListener != null)
             stlLoadListener.onFinished();
