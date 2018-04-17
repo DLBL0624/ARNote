@@ -146,9 +146,9 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         gl.glColor4f(0.0f,1.0f,1.0f,1.0f);
 
         //眼睛对着原点看
-        GLU.gluLookAt(gl, eye.x, eye.y, eye.z, center.x,
+        /*GLU.gluLookAt(gl, eye.x, eye.y, eye.z, center.x,
                 center.y, center.z, up.x, up.y, up.z);
-
+        */
         //Inverse the model
         gl.glRotatef(180, 0, -1, 0); //x,y,z
         //将模型放缩到View刚好装下

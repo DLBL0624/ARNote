@@ -9,23 +9,11 @@ countries.
 
 package com.IDS.administrator.arnote.VuforiaSamples.app.UserDefinedTargets;
 
-import java.util.Vector;
-
-import javax.microedition.khronos.egl.EGLConfig;
-import javax.microedition.khronos.opengles.GL10;
-
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
 
-import com.vuforia.Device;
-import com.vuforia.Matrix44F;
-import com.vuforia.Renderer;
-import com.vuforia.State;
-import com.vuforia.Tool;
-import com.vuforia.TrackableResult;
-import com.vuforia.Vuforia;
 import com.IDS.administrator.arnote.SampleApplication.SampleAppRenderer;
 import com.IDS.administrator.arnote.SampleApplication.SampleAppRendererControl;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationSession;
@@ -33,6 +21,18 @@ import com.IDS.administrator.arnote.SampleApplication.utils.CubeShaders;
 import com.IDS.administrator.arnote.SampleApplication.utils.SampleUtils;
 import com.IDS.administrator.arnote.SampleApplication.utils.Teapot;
 import com.IDS.administrator.arnote.SampleApplication.utils.Texture;
+import com.vuforia.Device;
+import com.vuforia.Matrix44F;
+import com.vuforia.Renderer;
+import com.vuforia.State;
+import com.vuforia.Tool;
+import com.vuforia.TrackableResult;
+import com.vuforia.Vuforia;
+
+import java.util.Vector;
+
+import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL10;
 
 
 // The renderer class for the ImageTargetsBuilder sample. 

@@ -66,8 +66,4 @@ public class Message {
 
     }
 
-    public void draw3D() // 画出3D 图形
-    {
-
-    }
 }
