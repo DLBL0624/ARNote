@@ -26,39 +26,15 @@ public class GLRenderer implements GLSurfaceView.Renderer {
 
 
     public GLRenderer(Context context) {
-        try {
 
-            model[0] = new STLReader().parserBinStlInAssets(context, "a1.stl");
+        for (int i =0; i<26; i++) {
+            String str = (char)(97+i)+ "1.stl";
+            try {
+                model[i] = new STLReader().parserBinStlInAssets(context, str);//read alphabet
 
-            model[1] = new STLReader().parserBinStlInAssets(context, "b1.stl");
-            model[2] = new STLReader().parserBinStlInAssets(context, "c1.stl");
-
-            model[3] = new STLReader().parserBinStlInAssets(context, "d1.stl");
-            model[4] = new STLReader().parserBinStlInAssets(context, "e1.stl");
-            model[5] = new STLReader().parserBinStlInAssets(context, "f1.stl");
-            model[6] = new STLReader().parserBinStlInAssets(context, "g1.stl");
-            model[7] = new STLReader().parserBinStlInAssets(context, "h1.stl");
-            model[8] = new STLReader().parserBinStlInAssets(context, "i1.stl");
-            model[9] = new STLReader().parserBinStlInAssets(context, "j1.stl");
-            model[10] = new STLReader().parserBinStlInAssets(context, "k1.stl");
-            model[11] = new STLReader().parserBinStlInAssets(context, "l1.stl");
-            model[12] = new STLReader().parserBinStlInAssets(context, "m1.stl");
-            model[13] = new STLReader().parserBinStlInAssets(context, "n1.stl");
-            model[14] = new STLReader().parserBinStlInAssets(context, "o1.stl");
-            model[15] = new STLReader().parserBinStlInAssets(context, "p1.stl");
-            model[16] = new STLReader().parserBinStlInAssets(context, "q1.stl");
-            model[17] = new STLReader().parserBinStlInAssets(context, "r1.stl");
-            model[18] = new STLReader().parserBinStlInAssets(context, "s1.stl");
-            model[19] = new STLReader().parserBinStlInAssets(context, "t1.stl");
-            model[20] = new STLReader().parserBinStlInAssets(context, "u1.stl");
-            model[21] = new STLReader().parserBinStlInAssets(context, "v1.stl");
-            model[22] = new STLReader().parserBinStlInAssets(context, "w1.stl");
-            model[23] = new STLReader().parserBinStlInAssets(context, "x1.stl");
-            model[24] = new STLReader().parserBinStlInAssets(context, "y1.stl");
-            model[25] = new STLReader().parserBinStlInAssets(context, "z1.stl");
-        /**/
-        } catch (IOException e) {
-            e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

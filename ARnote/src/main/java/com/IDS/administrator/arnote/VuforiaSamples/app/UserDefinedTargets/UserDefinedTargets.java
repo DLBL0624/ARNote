@@ -501,8 +501,8 @@ public class UserDefinedTargets extends Activity implements
                     Log.d(LOGTAG, "TRYING " + name);
                     targetBuilderCounter++;
                 } while (!targetBuilder.build(name, 320.0f));
-                
-                refFreeFrame.setCreating();
+
+                refFreeFrame.setCreating();//change status to Creating
             }
         }
     }

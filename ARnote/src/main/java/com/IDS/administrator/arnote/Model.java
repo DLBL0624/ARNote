@@ -11,9 +11,8 @@ public class Model {
     //array vector -> Buffer
     private FloatBuffer vertBuffer;
 
-    //每个顶点对应的法向量转换而来的Buffer
     private FloatBuffer vnormBuffer;
-    //以下分别保存所有点在x,y,z方向上的最大值、最小值
+
     float maxX;
     float minX;
     float maxY;
@@ -21,7 +20,7 @@ public class Model {
     float maxZ;
     float minZ;
 
-    //返回模型的中心点
+    //get the center point
     public Point getCentrePoint() {
         float cx = (maxX - minX) / 2;
         float cy = (maxY - minY) / 2;
@@ -29,7 +28,7 @@ public class Model {
         return new Point(cx, cy, cz);
     }
 
-    //包裹模型的最大半径
+    //get the radius of the cover ball
     public float getR() {
         float dx = (maxX - minX);
         float dy = (maxY - minY);
