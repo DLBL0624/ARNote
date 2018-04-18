@@ -18,6 +18,7 @@ public class STLReader {
     }
 
     public Model parserBinStlInAssets(Context context, String fileName) throws IOException {
+        Log.d("parserBinStlInAssets", "parserBinStlInAssets: In!");
         InputStream is = context.getAssets().open(fileName);
         return parserBinStl(is);
     }
@@ -43,10 +44,10 @@ public class STLReader {
         }
         byte[] facetBytes = new byte[50 * facetCount];// the attribute and position of each triangle
         in.read(facetBytes);
-
+        Log.d("parserBinStlInAssets", "facetCount:" + facetCount);
         in.close();
         parseModel(model, facetBytes);
-
+        Log.d("parserBinStlInAssets", "Comein:");
         if (stlLoadListener != null)
             stlLoadListener.onFinished();
         return model;
@@ -75,19 +76,20 @@ public class STLReader {
         short[] remarks = new short[facetCount];
 
         int stlOffset = 0;
+
         try {
             for (int i = 0; i < facetCount; i++) {
                 if (stlLoadListener != null) {
                     stlLoadListener.onLoading(i, facetCount);
                 }
-                for (int j = 0; j < 4; j++) {
+                for (int j = 0; j < 4; j++) {// one normal + 3 vertes
                     float x = Util.byte4ToFloat(facetBytes, stlOffset);
                     float y = Util.byte4ToFloat(facetBytes, stlOffset + 4);
                     float z = Util.byte4ToFloat(facetBytes, stlOffset + 8);
-                    stlOffset += 12;
+                    stlOffset += 12;//skip the
 
                     if (j == 0) {//法向量
-                        // System.out.println("法向量：" + x + "," + y + "," + z);
+
                         vnorms[i * 9] = x;
                         vnorms[i * 9 + 1] = y;
                         vnorms[i * 9 + 2] = z;
@@ -99,9 +101,9 @@ public class STLReader {
                         vnorms[i * 9 + 8] = z;
                     } else {//三个顶点
 
-                        verts[i * 9 + (j - 1) * 3] = x;
-                        verts[i * 9 + (j - 1) * 3 + 1] = y;
-                        verts[i * 9 + (j - 1) * 3 + 2] = z;
+                        verts[i * 9 + (j - 1) * 3] = x; //
+                        verts[i * 9 + (j - 1) * 3 + 1] = y; //
+                        verts[i * 9 + (j - 1) * 3 + 2] = z; //
 
                         //记录模型中三个坐标轴方向的最大最小值
                         if (i == 0 && j == 1) {
@@ -116,9 +118,14 @@ public class STLReader {
                             model.maxY = Math.max(model.maxY, y);
                             model.maxZ = Math.max(model.maxZ, z);
                         }
+
+
+
+
                     }
                 }
                 short r = Util.byte2ToShort(facetBytes, stlOffset);
+                Log.d("parseModel", "parseModel: " + r);
                 stlOffset = stlOffset + 2;
                 remarks[i] = r;
             }
@@ -130,10 +137,50 @@ public class STLReader {
             }
         }
         //将读取的数据设置到Model对象中
+        short[] indices = IndicesSet(model,verts);
         model.setVerts(verts);
         model.setVnorms(vnorms);
         model.setRemarks(remarks);
+        model.setIndices(indices);
+    }
 
+
+
+    public short[] IndicesSet(Model model,float[] verts)
+    {
+        int facetCount = model.getFacetCount();
+        short[] indices = new short[facetCount* 3];// indices
+        float[][] indices_check = new float[facetCount*3][3];
+        short ind = 1;
+        boolean check = false;
+
+        indices_check[0][0] = verts[0];
+        indices_check[0][1] = verts[1];
+        indices_check[0][2] = verts[2];
+
+        for(int i =1; i< (verts.length/3);i++)//each point
+        {
+            for(short t = 0; t<i;t++) {//check the repeat indices
+                if (indices_check[t][0] == verts[i*3] && indices_check[t][1] == verts[i*3+1] && indices_check[t][2] == verts[i*3+2]) {
+                    indices[i] = indices[t];
+                    Log.d("parseModel:", "parseModel: indices[" + i + "]" + indices[i]);
+                    check = true;
+                    break;
+                }
+            }
+
+            if(!check){
+                indices[i] = ind;
+                Log.d("parseModel:" , "parseModel: indices[" + i + "]" + indices[i]);
+                indices_check[i][0]=verts[i*3];
+                indices_check[i][1]=verts[i*3+1];
+                indices_check[i][2]=verts[i*3+2];
+                ind++;
+
+            }
+            check = false;
+        }
+        return indices;
     }
 
     public static interface StlLoadListener {
@@ -145,4 +192,7 @@ public class STLReader {
 
         void onFailure(Exception e);
     }
-}
+    }
+
+
+

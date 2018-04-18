@@ -498,7 +498,7 @@ public class UserDefinedTargets extends Activity implements
                 do
                 {
                     name = "UserTarget-" + targetBuilderCounter;
-                    Log.d(LOGTAG, "TRYING " + name);
+                    Log.d(LOGTAG, "TRYING " + name);//
                     targetBuilderCounter++;
                 } while (!targetBuilder.build(name, 320.0f));
 

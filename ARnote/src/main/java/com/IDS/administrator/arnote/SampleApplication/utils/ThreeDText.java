@@ -1,6 +1,8 @@
 
 package com.IDS.administrator.arnote.SampleApplication.utils;
 
+import android.util.Log;
+
 import com.IDS.administrator.arnote.Message;
 import com.IDS.administrator.arnote.Model;
 import com.IDS.administrator.arnote.STLReader;
@@ -16,7 +18,7 @@ public class ThreeDText extends MeshObject
     //private Buffer mTexCoordBuff;
     private Buffer mNormBuff;
     private Buffer mIndBuff;
-    private Model[] model;
+    public Model[] model = new Model[26];
     private int indicesNumber = 0;
     private int verticesNumber = 0;
     public Message mess;
@@ -28,14 +30,19 @@ public class ThreeDText extends MeshObject
         for (int i =0; i<1; i++) {
             String str = (char)(97+i)+ "1.stl";
             try {
+                System.out.println(i);
+                Log.d("threeDobject", "ThreeDText: " + i);
                 model[i] = new STLReader().parserBinStlInAssets(context, str);//read alphabet
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
             setVerts(model[i].getVerts(),i);
+            for(int r = 0;r<model[i].getVerts().length;r++)Log.d("threeDobject", "Verts: " + r + " " + model[i].getVerts()[r]);
             setNorms(model[i].getVnorms(),i);
-            setIndices(model[i].getRemarks(),i);
+            for(int r = 0;r<model[i].getVnorms().length;r++)Log.d("threeDobject", "Norms: " + r + " " + model[i].getVnorms()[r]);
+            setIndices(model[i].getIndices(),i);
+            for(int r = 0;r<model[i].getIndices().length;r++)Log.d("threeDobject", "Indices:"+ r + " " + model[i].getIndices()[r]);
         }
 
 

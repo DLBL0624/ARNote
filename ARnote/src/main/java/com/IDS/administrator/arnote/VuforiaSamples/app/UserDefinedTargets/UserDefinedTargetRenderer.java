@@ -51,7 +51,7 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
     private int vertexHandle;
     //private int textureCoordHandle;
     private int mvpMatrixHandle;
-    //private int texSampler2DHandle;
+    private int texSampler2DHandle;
     
     // Constants:
     static final float kObjectScale = 3.f;
@@ -67,7 +67,7 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
     {
         mActivity = activity;
         vuforiaAppSession = session;
-
+        Log.d("Initial???", "UserDefinedTargetRenderer: ");
         // SampleAppRenderer used to encapsulate the use of RenderingPrimitives setting
         // the device mode AR/VR and stereo mode
         mSampleAppRenderer = new SampleAppRenderer(this, mActivity, Device.MODE.MODE_AR, false, 10f, 5000f);
@@ -172,9 +172,10 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
             GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
                     modelViewProjection, 0);
 
+            //glRotatef(90,0,0,1);
             GLES20.glDrawElements(GLES20.GL_TRIANGLES,
-                    mTeapot.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
-                    mTeapot.getIndices());
+                    mThreeDText.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
+                    mThreeDText.getIndices());
 
             GLES20.glDisableVertexAttribArray(vertexHandle);
 
@@ -249,8 +250,8 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
 //            "vertexTexCoord");
         mvpMatrixHandle = GLES20.glGetUniformLocation(shaderProgramID,
             "modelViewProjectionMatrix");
-//        texSampler2DHandle = GLES20.glGetUniformLocation(shaderProgramID,
-//            "texSampler2D");
+        texSampler2DHandle = GLES20.glGetUniformLocation(shaderProgramID,
+            "texSampler2D");
     }
     
     

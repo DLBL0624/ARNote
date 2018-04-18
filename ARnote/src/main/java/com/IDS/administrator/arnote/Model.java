@@ -7,6 +7,7 @@ public class Model {
     private float[] verts;
     private float[] vnorms;
     private short[] remarks;
+    private short[] indices;
 
     //array vector -> Buffer
     private FloatBuffer vertBuffer;
@@ -82,6 +83,14 @@ public class Model {
 
     public void setRemarks(short[] remarks) {
         this.remarks = remarks;
+    }
+
+    public void setIndices(short[] _indices){
+        this.indices = _indices;
+    }
+
+    public short[] getIndices(){
+        return indices;
     }
 
 
