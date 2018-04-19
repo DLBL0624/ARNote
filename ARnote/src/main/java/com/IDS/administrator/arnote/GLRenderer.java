@@ -30,7 +30,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         for (int i =0; i<26; i++) {
             String str = (char)(97+i)+ "1.stl";
             try {
-                model[i] = new STLReader().parserBinStlInAssets(context, str);//read alphabet
+                model[i] = new OBJReader().parserBinStlInAssets(context, str);//read alphabet
 
             } catch (IOException e) {
                 e.printStackTrace();

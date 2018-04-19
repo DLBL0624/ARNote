@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.IDS.administrator.arnote.Message;
 import com.IDS.administrator.arnote.Model;
-import com.IDS.administrator.arnote.STLReader;
+import com.IDS.administrator.arnote.OBJReader;
 import com.IDS.administrator.arnote.VuforiaSamples.app.UserDefinedTargets.UserDefinedTargets;
 
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class ThreeDText extends MeshObject
 {
 
     private Buffer mVertBuff;
-    //private Buffer mTexCoordBuff;
+    private Buffer mTexCoordBuff;
     private Buffer mNormBuff;
     private Buffer mIndBuff;
     public Model[] model = new Model[26];
@@ -28,21 +28,24 @@ public class ThreeDText extends MeshObject
     {
 
         for (int i =0; i<1; i++) {
-            String str = (char)(97+i)+ "1.stl";
+            String str = "A.obj";
+            //String str = (char)(97+i)+ "1.stl";
             try {
                 System.out.println(i);
                 Log.d("threeDobject", "ThreeDText: " + i);
-                model[i] = new STLReader().parserBinStlInAssets(context, str);//read alphabet
+                model[i] = new OBJReader().parserBinStlInAssets(context, str);//read alphabet
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
             setVerts(model[i].getVerts(),i);
-            for(int r = 0;r<model[i].getVerts().length;r++)Log.d("threeDobject", "Verts: " + r + " " + model[i].getVerts()[r]);
+            //for(int r = 0;r<model[i].getVerts().length;r++)Log.d("threeDobject", "Verts: " + r + " " + model[i].getVerts()[r]);
+            setTexCoords(model[i].getTextureCoor(),i);
+            //for(int r = 0;r<model[i].getTextureCoor().length;r++)Log.d("threeDobject", "TextureCoor: " + r + " " + model[i].getTextureCoor()[r]);
             setNorms(model[i].getVnorms(),i);
-            for(int r = 0;r<model[i].getVnorms().length;r++)Log.d("threeDobject", "Norms: " + r + " " + model[i].getVnorms()[r]);
+            //for(int r = 0;r<model[i].getVnorms().length;r++)Log.d("threeDobject", "Norms: " + r + " " + model[i].getVnorms()[r]);
             setIndices(model[i].getIndices(),i);
-            for(int r = 0;r<model[i].getIndices().length;r++)Log.d("threeDobject", "Indices:"+ r + " " + model[i].getIndices()[r]);
+            //for(int r = 0;r<model[i].getIndices().length;r++)Log.d("threeDobject", "Indices:"+ r + " " + model[i].getIndices()[r]);
         }
 
 
@@ -145,12 +148,12 @@ public class ThreeDText extends MeshObject
     }
 
 
-//    private void setTexCoords()
-//    {
-//
-//        mTexCoordBuff = fillBuffer(TEAPOT_TEX_COORDS);
-//
-//    }
+    private void setTexCoords( float [] STRING_TEX_COORDS, int index)
+    {
+
+        mTexCoordBuff = fillBuffer(STRING_TEX_COORDS);
+
+    }
 
 
     private void setNorms(float [] STRING_NORMS, int index)
@@ -188,9 +191,9 @@ public class ThreeDText extends MeshObject
             case BUFFER_TYPE_VERTEX:
                 result = mVertBuff;
                 break;
-//            case BUFFER_TYPE_TEXTURE_COORD:
-//                result = mTexCoordBuff;
-//                break;
+            case BUFFER_TYPE_TEXTURE_COORD:
+                result = mTexCoordBuff;
+                break;
             case BUFFER_TYPE_NORMALS:
                 result = mNormBuff;
                 break;

@@ -5,6 +5,7 @@ import java.nio.FloatBuffer;
 public class Model {
     private int facetCount;
     private float[] verts;
+    private float[] vtexts;
     private float[] vnorms;
     private short[] remarks;
     private short[] indices;
@@ -84,6 +85,12 @@ public class Model {
     public void setRemarks(short[] remarks) {
         this.remarks = remarks;
     }
+
+    public float[] getTextureCoor() {
+        return vtexts;
+    }
+
+    public void setTexture(float[] texts){ this.vtexts = texts;}
 
     public void setIndices(short[] _indices){
         this.indices = _indices;
