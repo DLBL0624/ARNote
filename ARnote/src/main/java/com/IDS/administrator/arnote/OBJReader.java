@@ -34,7 +34,7 @@ public class OBJReader {
         Model model = new Model();
         String temps = null;
 
-        float Mult = 100;
+        float Mult = 10;
 
         ArrayList<Float> alv=new ArrayList<Float>();
         ArrayList<Float> alvText = new ArrayList<Float>();
@@ -49,12 +49,6 @@ public class OBJReader {
             InputStreamReader isr = new InputStreamReader(in);
             BufferedReader br = new BufferedReader(isr);
 
-
-            //skip the filename (80bits)
-            //in.skip(80);//file name
-        /*
-            Obj
-        */
             while ((temps = br.readLine()) != null) {
                 String[] tempsa = temps.split("[ ]+");
                 if(tempsa[0].trim().equals("v"))
