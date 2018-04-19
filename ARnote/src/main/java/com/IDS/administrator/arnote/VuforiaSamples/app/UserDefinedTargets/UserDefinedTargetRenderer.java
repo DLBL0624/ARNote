@@ -14,13 +14,12 @@ import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
 
+import com.IDS.administrator.arnote.Message;
 import com.IDS.administrator.arnote.SampleApplication.SampleAppRenderer;
 import com.IDS.administrator.arnote.SampleApplication.SampleAppRendererControl;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationSession;
-import com.IDS.administrator.arnote.SampleApplication.utils.CubeObject;
 import com.IDS.administrator.arnote.SampleApplication.utils.CubeShaders;
 import com.IDS.administrator.arnote.SampleApplication.utils.SampleUtils;
-import com.IDS.administrator.arnote.SampleApplication.utils.Teapot;
 import com.IDS.administrator.arnote.SampleApplication.utils.Texture;
 import com.IDS.administrator.arnote.SampleApplication.utils.ThreeDText;
 import com.vuforia.Device;
@@ -53,12 +52,17 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
     private int textureCoordHandle;
     private int mvpMatrixHandle;
     private int texSampler2DHandle;
-    
+    //public Vector<Message> mess;\
+    public float[] color_mess = {1.0f,1.0f,1.0f,1.0f};
+    public Message mess = new Message(0,0,"PSY",color_mess);
+    private int[] deCodeString = new int[100];
+
     // Constants:
     static final float kObjectScale = 3.f;//
+    static final float TextSpace = 100.f;
     
-    private Teapot mTeapot;
-    private CubeObject mCube;
+    //private Teapot mTeapot;
+    //private CubeObject mCube;
     private ThreeDText mThreeDText;
     // Reference to main activity
     private UserDefinedTargets mActivity;
@@ -220,67 +224,38 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
 //
 //            SampleUtils.checkGLError("UserDefinedTargets renderFrame");
 
+            loadString(mess);
+            for(int t = 0; deCodeString[t]!='\0'; t++) Matrix.translateM(modelViewMatrix, 0, -TextSpace, 0.0f, 0.0f);
+            for(int t = 0; deCodeString[t]!='\0'; t++) {
+                //TEAPOT @ToDO THREEdTEXT
+                GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
+                        false, 0, mThreeDText.getVertices(deCodeString[t]));
+
+                GLES20.glVertexAttribPointer(textureCoordHandle, 2,
+                        GLES20.GL_FLOAT, false, 0, mThreeDText.getTexCoords(deCodeString[t]));
+
+                //@todo texture switch
+                GLES20.glEnableVertexAttribArray(vertexHandle);
+                GLES20.glEnableVertexAttribArray(textureCoordHandle);
+
+                GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
+                        mTextures.get(0).mTextureID[0]);
+                GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
+                        modelViewProjection, 0);
+                GLES20.glUniform1i(texSampler2DHandle, 0);
 
 
-            //TEAPOT @ToDO THREEdTEXT
-            GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
-                    false, 0, mThreeDText.getVertices());
+                //Matrix.scaleM(mMatrixCurrent,0,3.0f,2.0f,3.0f);
+                GLES20.glDrawElements(GLES20.GL_TRIANGLES,
+                        mThreeDText.getNumObjectIndex(deCodeString[t]), GLES20.GL_UNSIGNED_SHORT,
+                        mThreeDText.getIndices(deCodeString[t]));
+                Matrix.translateM(modelViewMatrix, 0, TextSpace, 0.0f, 0.0f);
+                GLES20.glDisableVertexAttribArray(vertexHandle);
+                GLES20.glDisableVertexAttribArray(textureCoordHandle);
 
-            GLES20.glVertexAttribPointer(textureCoordHandle, 2,
-                    GLES20.GL_FLOAT, false, 0, mThreeDText.getTexCoords());
-
-            //@todo texture switch
-            GLES20.glEnableVertexAttribArray(vertexHandle);
-            GLES20.glEnableVertexAttribArray(textureCoordHandle);
-
-            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
-                    mTextures.get(0).mTextureID[0]);
-            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
-                    modelViewProjection, 0);
-            GLES20.glUniform1i(texSampler2DHandle, 0);
-
-
-
-            //Matrix.scaleM(mMatrixCurrent,0,3.0f,2.0f,3.0f);
-            GLES20.glDrawElements(GLES20.GL_TRIANGLES,
-                    mThreeDText.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
-                    mThreeDText.getIndices());
-
-            GLES20.glDisableVertexAttribArray(vertexHandle);
-            GLES20.glDisableVertexAttribArray(textureCoordHandle);
-
-            SampleUtils.checkGLError("UserDefinedTargets renderFrame");
-
-//            //TEAPOT @ToDO THREEdTEXT
-//            GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
-//                    false, 0, mCube.getVertices());
-//
-//            GLES20.glVertexAttribPointer(textureCoordHandle, 2,
-//                    GLES20.GL_FLOAT, false, 0, mCube.getTexCoords());
-//
-//            //@todo texture switch
-//            GLES20.glEnableVertexAttribArray(vertexHandle);
-//            GLES20.glEnableVertexAttribArray(textureCoordHandle);
-//
-//            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
-//            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
-//                    mTextures.get(0).mTextureID[0]);
-//            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
-//                    modelViewProjection, 0);
-//            GLES20.glUniform1i(texSampler2DHandle, 0);
-//
-//
-//
-//            Matrix.scaleM(mMatrixCurrent,0,3.0f,2.0f,3.0f);
-//            GLES20.glDrawElements(GLES20.GL_TRIANGLES,
-//                    mCube.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
-//                    mCube.getIndices());
-//
-//            GLES20.glDisableVertexAttribArray(vertexHandle);
-//            GLES20.glDisableVertexAttribArray(textureCoordHandle);
-//
-//            SampleUtils.checkGLError("UserDefinedTargets renderFrame");
+                SampleUtils.checkGLError("UserDefinedTargets renderFrame");
+            }
         }
         
         GLES20.glDisable(GLES20.GL_DEPTH_TEST);
@@ -293,9 +268,9 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
     {
         Log.d(LOGTAG, "initRendering");
         
-        mTeapot = new Teapot();// the shape shown
+        //mTeapot = new Teapot();// the shape shown
         mThreeDText = new ThreeDText(mActivity);
-        mCube = new CubeObject();
+        //mCube = new CubeObject();
         // Define clear color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f
             : 1.0f);
@@ -335,5 +310,171 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
 
         mTextures = textures;
    }
-    
+
+
+    public void loadString(Message mes) {
+        String str = mes.getMessage();
+        for (int i = 0; i < str.length(); i++) {
+            switch (str.charAt(i)) {
+                case 'a':
+                    deCodeString[i] = 0;
+                    break;
+                case 'b':
+                    deCodeString[i] = 1;
+                    break;
+                case 'c':
+                    deCodeString[i] = 2;
+                    break;
+                case 'd':
+                    deCodeString[i] = 3;
+                    break;
+                case 'e':
+                    deCodeString[i] = 4;
+                    break;
+                case 'f':
+                    deCodeString[i] = 5;
+                    break;
+                case 'g':
+                    deCodeString[i] = 6;
+                    break;
+                case 'h':
+                    deCodeString[i] = 7;
+                    break;
+                case 'i':
+                    deCodeString[i] = 8;
+                    break;
+                case 'j':
+                    deCodeString[i] = 9;
+                    break;
+                case 'k':
+                    deCodeString[i] = 10;
+                    break;
+                case 'l':
+                    deCodeString[i] = 11;
+                    break;
+                case 'm':
+                    deCodeString[i] = 12;
+                    break;
+                case 'n':
+                    deCodeString[i] = 13;
+                    break;
+                case 'o':
+                    deCodeString[i] = 14;
+                    break;
+                case 'p':
+                    deCodeString[i] = 15;
+                    break;
+                case 'q':
+                    deCodeString[i] = 16;
+                    break;
+                case 'r':
+                    deCodeString[i] = 17;
+                    break;
+                case 's':
+                    deCodeString[i] = 18;
+                    break;
+                case 't':
+                    deCodeString[i] = 19;
+                    break;
+                case 'u':
+                    deCodeString[i] = 20;
+                    break;
+                case 'v':
+                    deCodeString[i] = 21;
+                    break;
+                case 'w':
+                    deCodeString[i] = 22;
+                    break;
+                case 'x':
+                    deCodeString[i] = 23;
+                    break;
+                case 'y':
+                    deCodeString[i] = 24;
+                    break;
+                case 'z':
+                    deCodeString[i] = 25;
+                    break;
+                case 'A':
+                    deCodeString[i] = 26;
+                    break;
+                case 'B':
+                    deCodeString[i] = 27;
+                    break;
+                case 'C':
+                    deCodeString[i] = 28;
+                    break;
+                case 'D':
+                    deCodeString[i] = 29;
+                    break;
+                case 'E':
+                    deCodeString[i] = 30;
+                    break;
+                case 'F':
+                    deCodeString[i] = 31;
+                    break;
+                case 'G':
+                    deCodeString[i] = 32;
+                    break;
+                case 'H':
+                    deCodeString[i] = 33;
+                    break;
+                case 'I':
+                    deCodeString[i] = 34;
+                    break;
+                case 'J':
+                    deCodeString[i] = 35;
+                    break;
+                case 'K':
+                    deCodeString[i] = 36;
+                    break;
+                case 'L':
+                    deCodeString[i] = 37;
+                    break;
+                case 'M':
+                    deCodeString[i] = 38;
+                    break;
+                case 'N':
+                    deCodeString[i] = 39;
+                    break;
+                case 'O':
+                    deCodeString[i] = 40;
+                    break;
+                case 'P':
+                    deCodeString[i] = 41;
+                    break;
+                case 'Q':
+                    deCodeString[i] = 42;
+                    break;
+                case 'R':
+                    deCodeString[i] = 43;
+                    break;
+                case 'S':
+                    deCodeString[i] = 44;
+                    break;
+                case 'T':
+                    deCodeString[i] = 45;
+                    break;
+                case 'U':
+                    deCodeString[i] = 46;
+                    break;
+                case 'V':
+                    deCodeString[i] = 47;
+                    break;
+                case 'W':
+                    deCodeString[i] = 48;
+                    break;
+                case 'X':
+                    deCodeString[i] = 49;
+                    break;
+                case 'Y':
+                    deCodeString[i] = 50;
+                    break;
+                case 'Z':
+                    deCodeString[i] = 51;
+                    break;
+            }
+        }
+        deCodeString[str.length()] = '\0';
+    }
+
 }

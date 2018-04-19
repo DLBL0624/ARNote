@@ -1,5 +1,6 @@
 package com.IDS.administrator.arnote;
 
+
 public class Message {
 
     private double locationX; //geography location

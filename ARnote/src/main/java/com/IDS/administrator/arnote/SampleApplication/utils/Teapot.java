@@ -1494,5 +1494,43 @@ public class Teapot extends MeshObject
         
         return result;
     }
+
+    public int getNumObjectIndex(int index)
+    {
+        return indicesNumber;
+    }
+
+
+    @Override
+    public int getNumObjectVertex(int index)
+    {
+        return verticesNumber;
+    }
+
+
+    @Override
+    public Buffer getBuffer(BUFFER_TYPE bufferType, int index)
+    {
+        Buffer result = null;
+        switch (bufferType)
+        {
+            case BUFFER_TYPE_VERTEX:
+                result = mVertBuff;
+                break;
+            case BUFFER_TYPE_TEXTURE_COORD:
+                result = mTexCoordBuff;
+                break;
+            case BUFFER_TYPE_NORMALS:
+                result = mNormBuff;
+                break;
+            case BUFFER_TYPE_INDICES:
+                result = mIndBuff;
+            default:
+                break;
+
+        }
+
+        return result;
+    }
     
 }

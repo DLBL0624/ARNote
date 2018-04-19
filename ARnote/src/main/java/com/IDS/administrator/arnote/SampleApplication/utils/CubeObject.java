@@ -121,17 +121,52 @@ public class CubeObject extends MeshObject
         }
         return result;
     }
-    
+
+    @Override
+    public Buffer getBuffer(BUFFER_TYPE bufferType, int index)
+    {
+        Buffer result = null;
+        switch (bufferType)
+        {
+            case BUFFER_TYPE_VERTEX:
+                result = mVertBuff;
+                break;
+            case BUFFER_TYPE_TEXTURE_COORD:
+                result = mTexCoordBuff;
+                break;
+            case BUFFER_TYPE_INDICES:
+                result = mIndBuff;
+                break;
+            case BUFFER_TYPE_NORMALS:
+                result = mNormBuff;
+            default:
+                break;
+        }
+        return result;
+    }
     
     @Override
     public int getNumObjectVertex()
     {
         return cubeVertices.length / 3;
     }
-    
-    
+
+
     @Override
     public int getNumObjectIndex()
+    {
+        return cubeIndices.length;
+    }
+
+    @Override
+    public int getNumObjectVertex(int index)
+    {
+        return cubeVertices.length / 3;
+    }
+
+
+    @Override
+    public int getNumObjectIndex(int index)
     {
         return cubeIndices.length;
     }

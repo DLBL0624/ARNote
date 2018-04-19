@@ -14,22 +14,21 @@ import java.nio.Buffer;
 public class ThreeDText extends MeshObject
 {
 
-    private Buffer mVertBuff;
-    private Buffer mTexCoordBuff;
-    private Buffer mNormBuff;
-    private Buffer mIndBuff;
-    public Model[] model = new Model[26];
-    private int indicesNumber = 0;
-    private int verticesNumber = 0;
+    private Buffer[] mVertBuff = new Buffer[52];
+    private Buffer[] mTexCoordBuff = new Buffer[52];
+    private Buffer[] mNormBuff = new Buffer[52];
+    private Buffer[] mIndBuff = new Buffer[52];
+    public Model[] model = new Model[52];
+    private int[] indicesNumber = new int[52];
+    private int [] verticesNumber = new int[52];
     public Message mess;
-    private int[] deCodeString = new int[100];
 
     public ThreeDText(UserDefinedTargets context)
     {
 
-        for (int i =0; i<1; i++) {
-            String str = "B.obj";
-            //String str = (char)(97+i)+ "1.stl";
+        for (int i =0; i<26; i++) {
+
+            String str = (char)(97+i)+ "1.obj";
             try {
                 System.out.println(i);
                 Log.d("threeDobject", "ThreeDText: " + i);
@@ -39,167 +38,115 @@ public class ThreeDText extends MeshObject
                 e.printStackTrace();
             }
             setVerts(model[i].getVerts(),i);
-            for(int r = 0;r<model[i].getVerts().length;r++)Log.d("threeDobject", "Verts: " + r + " " + model[i].getVerts()[r]);
+            //for(int r = 0;r<model[i].getVerts().length;r++)Log.d("threeDobject", "Verts: " + r + " " + model[i].getVerts()[r]);
             //Log.d("threeDobject", "Verts:" + model[i].getVerts());
             setTexCoords(model[i].getTextureCoor(),i);
             //for(int r = 0;r<model[i].getTextureCoor().length;r++)Log.d("threeDobject", "TextureCoor: " + r + " " + model[i].getTextureCoor()[r]);
             setNorms(model[i].getVnorms(),i);
-            for(int r = 0;r<model[i].getVnorms().length;r++)Log.d("threeDobject", "Norms: " + r + " " + model[i].getVnorms()[r]);
+            //for(int r = 0;r<model[i].getVnorms().length;r++)Log.d("threeDobject", "Norms: " + r + " " + model[i].getVnorms()[r]);
             setIndices(model[i].getIndices(),i);
-            for(int r = 0;r<model[i].getIndices().length;r++)Log.d("threeDobject", "Indices:"+ r + " " + model[i].getIndices()[r]);
+            //for(int r = 0;r<model[i].getIndices().length;r++)Log.d("threeDobject", "Indices:"+ r + " " + model[i].getIndices()[r]);
         }
+        for (int i =0; i<26; i++) {
 
+            String str = (char)(65+i)+ ".obj";
+            try {
+                System.out.println(i+26);
+                Log.d("threeDobject", "ThreeDText: " + (i+26));
+                model[i+26] = new OBJReader().parserBinStlInAssets(context, str);//read alphabet
 
-    }
-
-    /*
-    public void loadString(Message mes) {
-        String str = mes.getMessage();
-        for (int i = 0; i < str.length(); i++) {
-            switch (str.charAt(i)) {
-                case 'a':
-                    deCodeString[i] = 0;
-                    break;
-                case 'b':
-                    deCodeString[i] = 1;
-                    break;
-                case 'c':
-                    deCodeString[i] = 2;
-                    break;
-                case 'd':
-                    deCodeString[i] = 3;
-                    break;
-                case 'e':
-                    deCodeString[i] = 4;
-                    break;
-                case 'f':
-                    deCodeString[i] = 5;
-                    break;
-                case 'g':
-                    deCodeString[i] = 6;
-                    break;
-                case 'h':
-                    deCodeString[i] = 7;
-                    break;
-                case 'i':
-                    deCodeString[i] = 8;
-                    break;
-                case 'j':
-                    deCodeString[i] = 9;
-                    break;
-                case 'k':
-                    deCodeString[i] = 10;
-                    break;
-                case 'l':
-                    deCodeString[i] = 11;
-                    break;
-                case 'm':
-                    deCodeString[i] = 12;
-                    break;
-                case 'n':
-                    deCodeString[i] = 13;
-                    break;
-                case 'o':
-                    deCodeString[i] = 14;
-                    break;
-                case 'p':
-                    deCodeString[i] = 15;
-                    break;
-                case 'q':
-                    deCodeString[i] = 16;
-                    break;
-                case 'r':
-                    deCodeString[i] = 17;
-                    break;
-                case 's':
-                    deCodeString[i] = 18;
-                    break;
-                case 't':
-                    deCodeString[i] = 19;
-                    break;
-                case 'u':
-                    deCodeString[i] = 20;
-                    break;
-                case 'v':
-                    deCodeString[i] = 21;
-                    break;
-                case 'w':
-                    deCodeString[i] = 22;
-                    break;
-                case 'x':
-                    deCodeString[i] = 23;
-                    break;
-                case 'y':
-                    deCodeString[i] = 24;
-                    break;
-                case 'z':
-                    deCodeString[i] = 25;
-                    break;
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+            setVerts(model[i+26].getVerts(),i+26);
+            //for(int r = 0;r<model[i].getVerts().length;r++)Log.d("threeDobject", "Verts: " + r + " " + model[i].getVerts()[r]);
+            //Log.d("threeDobject", "Verts:" + model[i].getVerts());
+            setTexCoords(model[i+26].getTextureCoor(),i+26);
+            //for(int r = 0;r<model[i].getTextureCoor().length;r++)Log.d("threeDobject", "TextureCoor: " + r + " " + model[i].getTextureCoor()[r]);
+            setNorms(model[i+26].getVnorms(),i+26);
+            //for(int r = 0;r<model[i].getVnorms().length;r++)Log.d("threeDobject", "Norms: " + r + " " + model[i].getVnorms()[r]);
+            setIndices(model[i+26].getIndices(),i+26);
+            //for(int r = 0;r<model[i].getIndices().length;r++)Log.d("threeDobject", "Indices:"+ r + " " + model[i].getIndices()[r]);
         }
-        deCodeString[str.length()] = '\0';
+
+
     }
-    */
+
+
+
 
     private void setVerts( float [] STRING_VERIS, int index )
     {
 
-        mVertBuff = fillBuffer(STRING_VERIS);
-        verticesNumber = STRING_VERIS.length / 3;
+        mVertBuff[index] = fillBuffer(STRING_VERIS);
+        verticesNumber[index] = STRING_VERIS.length / 3;
     }
 
 
     private void setTexCoords( float [] STRING_TEX_COORDS, int index)
     {
 
-        mTexCoordBuff = fillBuffer(STRING_TEX_COORDS);
+        mTexCoordBuff[index] = fillBuffer(STRING_TEX_COORDS);
 
     }
 
 
     private void setNorms(float [] STRING_NORMS, int index)
     {
-        mNormBuff = fillBuffer(STRING_NORMS);
+        mNormBuff[index] = fillBuffer(STRING_NORMS);
     }
 
 
     private void setIndices(short [] STRING_INDICES, int index)
     {
-        mIndBuff = fillBuffer(STRING_INDICES);
-        indicesNumber = STRING_INDICES.length;
+        mIndBuff[index] = fillBuffer(STRING_INDICES);
+        indicesNumber[index] = STRING_INDICES.length;
     }
 
 
+    public int getNumObjectIndex(int index)
+    {
+        return indicesNumber[index];
+    }
+
+
+    @Override
+    public int getNumObjectVertex(int index)
+    {
+        return verticesNumber[index];
+    }
+
+    @Override
     public int getNumObjectIndex()
     {
-        return indicesNumber;
+        return indicesNumber[0];
     }
 
 
     @Override
     public int getNumObjectVertex()
     {
-        return verticesNumber;
+        return verticesNumber[0];
     }
 
 
     @Override
-    public Buffer getBuffer(BUFFER_TYPE bufferType)
+    public Buffer getBuffer(BUFFER_TYPE bufferType, int index)
     {
         Buffer result = null;
         switch (bufferType)
         {
             case BUFFER_TYPE_VERTEX:
-                result = mVertBuff;
+                result = mVertBuff[index];
                 break;
             case BUFFER_TYPE_TEXTURE_COORD:
-                result = mTexCoordBuff;
+                result = mTexCoordBuff[index];
                 break;
             case BUFFER_TYPE_NORMALS:
-                result = mNormBuff;
+                result = mNormBuff[index];
                 break;
             case BUFFER_TYPE_INDICES:
-                result = mIndBuff;
+                result = mIndBuff[index];
             default:
                 break;
 
@@ -208,4 +155,28 @@ public class ThreeDText extends MeshObject
         return result;
     }
 
+    @Override
+    public Buffer getBuffer(BUFFER_TYPE bufferType)
+    {
+        Buffer result = null;
+        switch (bufferType)
+        {
+            case BUFFER_TYPE_VERTEX:
+                result = mVertBuff[0];
+                break;
+            case BUFFER_TYPE_TEXTURE_COORD:
+                result = mTexCoordBuff[0];
+                break;
+            case BUFFER_TYPE_NORMALS:
+                result = mNormBuff[0];
+                break;
+            case BUFFER_TYPE_INDICES:
+                result = mIndBuff[0];
+            default:
+                break;
+
+        }
+
+        return result;
+    }
 }

@@ -27,25 +27,41 @@ public abstract class MeshObject
     {
         return getBuffer(BUFFER_TYPE.BUFFER_TYPE_VERTEX);
     }
-    
+
+    public Buffer getVertices(int index)
+    {
+        return getBuffer(BUFFER_TYPE.BUFFER_TYPE_VERTEX, index);
+    }
     
     public Buffer getTexCoords()
     {
         return getBuffer(BUFFER_TYPE.BUFFER_TYPE_TEXTURE_COORD);
     }
-    
-    
+
+    public Buffer getTexCoords(int index)
+    {
+        return getBuffer(BUFFER_TYPE.BUFFER_TYPE_TEXTURE_COORD, index);
+    }
+
     public Buffer getNormals()
     {
         return getBuffer(BUFFER_TYPE.BUFFER_TYPE_NORMALS);
     }
-    
+
+    public Buffer getNormals(int index)
+    {
+        return getBuffer(BUFFER_TYPE.BUFFER_TYPE_NORMALS, index);
+    }
     
     public Buffer getIndices()
     {
         return getBuffer(BUFFER_TYPE.BUFFER_TYPE_INDICES);
     }
-    
+
+    public Buffer getIndices(int index)
+    {
+        return getBuffer(BUFFER_TYPE.BUFFER_TYPE_INDICES, index);
+    }
     
     protected Buffer fillBuffer(double[] array)
     {
@@ -92,11 +108,17 @@ public abstract class MeshObject
     
     
     public abstract Buffer getBuffer(BUFFER_TYPE bufferType);
-    
-    
+
+    public abstract Buffer getBuffer(BUFFER_TYPE bufferType, int index);
+
     public abstract int getNumObjectVertex();
     
     
     public abstract int getNumObjectIndex();
+
+    public abstract int getNumObjectVertex(int index);
+
+
+    public abstract int getNumObjectIndex(int index);
     
 }
