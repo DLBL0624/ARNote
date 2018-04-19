@@ -27,13 +27,11 @@ public class OBJReader {
         return parserBinObj(is);
     }
 
-    //更改的地方 读取的格式不对
     // TODO: 2018/3/6 load completed
     public Model parserBinObj(InputStream in) throws IOException {
 
         Model model = new Model();
         String temps = null;
-
         float Mult = 10;
 
         ArrayList<Float> alv=new ArrayList<Float>();
@@ -70,7 +68,7 @@ public class OBJReader {
                     alvNormal.add(Float.parseFloat(tempsa[3]));
                 }
                 else if(tempsa[0].trim().equals("f"))
-                {//此行为三角形面
+                {
                     int index=Integer.parseInt(tempsa[1].split("/")[0])-1;
                     alvResult.add(alv.get(3*index));
                     alvResult.add(alv.get(3*index+1));
@@ -94,11 +92,8 @@ public class OBJReader {
 
                     k = Integer.parseInt(tempsa[3].split("/")[0]) - 1;
                     alvIndices.add((short)k);//vertex indices;
-
-
                 }
             }
-            //生成顶点数组
             int resultSize = alvResult.size();
             int vertexSize = alv.size();
             int textureSize = alvText.size();
@@ -135,11 +130,9 @@ public class OBJReader {
                 vIndices[i]=alvIndices.get(i);
             }
 
-
             model.setVerts(vVertex);
             model.setTexture(vText);
             model.setVnorms(vNorm);
-            //model.setRemarks(remarks);
             model.setIndices(vIndices);
 
             br.close();

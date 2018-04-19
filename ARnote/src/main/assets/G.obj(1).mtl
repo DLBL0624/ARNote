@@ -1,0 +1,14 @@
+# File produced by Open Asset Import Library (http://www.assimp.sf.net)
+# (assimp v3.1.187496374)
+
+newmtl Material_103
+Kd 1 1 1
+Ka 0.2 0.2 0.2
+Ks 1 1 1
+Ke 0 0 0
+d 1
+Ns 1.19869e+07
+illum 2
+map_Kd textures\17.png
+map_Ks textures\18.png
+
