@@ -173,7 +173,7 @@ public class UserDefinedTargets extends Activity implements
     //add Texture to render
     private void loadTextures()
     {
-        mTextures.add(Texture.loadTextureFromApk("TextureTeapotBlue.png",
+        mTextures.add(Texture.loadTextureFromApk("r.png",
             getAssets()));
     }
     

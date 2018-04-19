@@ -28,7 +28,7 @@ public class ThreeDText extends MeshObject
     {
 
         for (int i =0; i<1; i++) {
-            String str = "A.obj";
+            String str = "B.obj";
             //String str = (char)(97+i)+ "1.stl";
             try {
                 System.out.println(i);
@@ -39,13 +39,14 @@ public class ThreeDText extends MeshObject
                 e.printStackTrace();
             }
             setVerts(model[i].getVerts(),i);
-            //for(int r = 0;r<model[i].getVerts().length;r++)Log.d("threeDobject", "Verts: " + r + " " + model[i].getVerts()[r]);
+            for(int r = 0;r<model[i].getVerts().length;r++)Log.d("threeDobject", "Verts: " + r + " " + model[i].getVerts()[r]);
+            //Log.d("threeDobject", "Verts:" + model[i].getVerts());
             setTexCoords(model[i].getTextureCoor(),i);
             //for(int r = 0;r<model[i].getTextureCoor().length;r++)Log.d("threeDobject", "TextureCoor: " + r + " " + model[i].getTextureCoor()[r]);
             setNorms(model[i].getVnorms(),i);
-            //for(int r = 0;r<model[i].getVnorms().length;r++)Log.d("threeDobject", "Norms: " + r + " " + model[i].getVnorms()[r]);
+            for(int r = 0;r<model[i].getVnorms().length;r++)Log.d("threeDobject", "Norms: " + r + " " + model[i].getVnorms()[r]);
             setIndices(model[i].getIndices(),i);
-            //for(int r = 0;r<model[i].getIndices().length;r++)Log.d("threeDobject", "Indices:"+ r + " " + model[i].getIndices()[r]);
+            for(int r = 0;r<model[i].getIndices().length;r++)Log.d("threeDobject", "Indices:"+ r + " " + model[i].getIndices()[r]);
         }
 
 

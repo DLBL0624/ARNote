@@ -17,6 +17,7 @@ import android.util.Log;
 import com.IDS.administrator.arnote.SampleApplication.SampleAppRenderer;
 import com.IDS.administrator.arnote.SampleApplication.SampleAppRendererControl;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationSession;
+import com.IDS.administrator.arnote.SampleApplication.utils.CubeObject;
 import com.IDS.administrator.arnote.SampleApplication.utils.CubeShaders;
 import com.IDS.administrator.arnote.SampleApplication.utils.SampleUtils;
 import com.IDS.administrator.arnote.SampleApplication.utils.Teapot;
@@ -57,10 +58,16 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
     static final float kObjectScale = 3.f;
     
     private Teapot mTeapot;
+    private CubeObject mCube;
     private ThreeDText mThreeDText;
     // Reference to main activity
     private UserDefinedTargets mActivity;
-    
+
+    private float[] mMatrixCurrent=     //原始矩阵
+            {1,0,0,0,
+                    0,1,0,0,
+                    0,0,1,0,
+                    0,0,0,1};
     
     public UserDefinedTargetRenderer(UserDefinedTargets activity,
         SampleApplicationSession session)
@@ -232,6 +239,8 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
             GLES20.glUniform1i(texSampler2DHandle, 0);
 
 
+
+            Matrix.scaleM(mMatrixCurrent,0,3.0f,2.0f,3.0f);
             GLES20.glDrawElements(GLES20.GL_TRIANGLES,
                     mThreeDText.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
                     mThreeDText.getIndices());
@@ -240,6 +249,36 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
             GLES20.glDisableVertexAttribArray(textureCoordHandle);
 
             SampleUtils.checkGLError("UserDefinedTargets renderFrame");
+
+//            //TEAPOT @ToDO THREEdTEXT
+//            GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
+//                    false, 0, mCube.getVertices());
+//
+//            GLES20.glVertexAttribPointer(textureCoordHandle, 2,
+//                    GLES20.GL_FLOAT, false, 0, mCube.getTexCoords());
+//
+//            //@todo texture switch
+//            GLES20.glEnableVertexAttribArray(vertexHandle);
+//            GLES20.glEnableVertexAttribArray(textureCoordHandle);
+//
+//            GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
+//            GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
+//                    mTextures.get(0).mTextureID[0]);
+//            GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
+//                    modelViewProjection, 0);
+//            GLES20.glUniform1i(texSampler2DHandle, 0);
+//
+//
+//
+//            Matrix.scaleM(mMatrixCurrent,0,3.0f,2.0f,3.0f);
+//            GLES20.glDrawElements(GLES20.GL_TRIANGLES,
+//                    mCube.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
+//                    mCube.getIndices());
+//
+//            GLES20.glDisableVertexAttribArray(vertexHandle);
+//            GLES20.glDisableVertexAttribArray(textureCoordHandle);
+//
+//            SampleUtils.checkGLError("UserDefinedTargets renderFrame");
         }
         
         GLES20.glDisable(GLES20.GL_DEPTH_TEST);
@@ -254,6 +293,7 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
         
         mTeapot = new Teapot();// the shape shown
         mThreeDText = new ThreeDText(mActivity);
+        mCube = new CubeObject();
         // Define clear color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f
             : 1.0f);

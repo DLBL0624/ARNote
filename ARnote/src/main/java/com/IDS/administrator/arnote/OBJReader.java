@@ -34,6 +34,8 @@ public class OBJReader {
         Model model = new Model();
         String temps = null;
 
+        float Mult = 100;
+
         ArrayList<Float> alv=new ArrayList<Float>();
         ArrayList<Float> alvText = new ArrayList<Float>();
         ArrayList<Float> alvNormal = new ArrayList<Float>();
@@ -57,15 +59,15 @@ public class OBJReader {
                 String[] tempsa = temps.split("[ ]+");
                 if(tempsa[0].trim().equals("v"))
                 {
-                    alv.add(Float.parseFloat(tempsa[1]));
-                    alv.add(Float.parseFloat(tempsa[2]));
-                    alv.add(Float.parseFloat(tempsa[3]));
+                    alv.add(Float.parseFloat(tempsa[1])*Mult);
+                    alv.add(Float.parseFloat(tempsa[2])*Mult);
+                    alv.add(Float.parseFloat(tempsa[3])*Mult);
                 }
                 else if(tempsa[0].trim().equals("vt"))//if vertex texture
                 {
-                    alvText.add(Float.parseFloat(tempsa[1]));
-                    alvText.add(Float.parseFloat(tempsa[2]));
-                    alvText.add(Float.parseFloat(tempsa[3]));
+                    alvText.add(Float.parseFloat(tempsa[1])*Mult);
+                    alvText.add(Float.parseFloat(tempsa[2])*Mult);
+                    alvText.add(Float.parseFloat(tempsa[3])*Mult);
                 }
                 else if(tempsa[0].trim().equals("vn"))//if vertex normal
                 {
@@ -80,21 +82,24 @@ public class OBJReader {
                     alvResult.add(alv.get(3*index+1));
                     alvResult.add(alv.get(3*index+2));
 
-                    alvIndices.add(Short.parseShort(tempsa[1].split("/")[0]));//vertex indices;
+                    int k = Integer.parseInt(tempsa[1].split("/")[0]) - 1;
+                    alvIndices.add((short)k);//vertex indices;
 
                     index=Integer.parseInt(tempsa[2].split("/")[0])-1;
                     alvResult.add(alv.get(3*index));
                     alvResult.add(alv.get(3*index+1));
                     alvResult.add(alv.get(3*index+2));
 
-                    alvIndices.add(Short.parseShort(tempsa[2].split("/")[0]));//vertex indices;
+                    k = Integer.parseInt(tempsa[2].split("/")[0]) - 1;
+                    alvIndices.add((short)k);//vertex indices;
 
                     index=Integer.parseInt(tempsa[3].split("/")[0])-1;
                     alvResult.add(alv.get(3*index));
                     alvResult.add(alv.get(3*index+1));
                     alvResult.add(alv.get(3*index+2));
 
-                    alvIndices.add(Short.parseShort(tempsa[3].split("/")[0]));//vertex indices;
+                    k = Integer.parseInt(tempsa[3].split("/")[0]) - 1;
+                    alvIndices.add((short)k);//vertex indices;
 
 
                 }
