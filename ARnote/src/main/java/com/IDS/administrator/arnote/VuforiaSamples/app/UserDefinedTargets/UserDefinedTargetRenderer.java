@@ -55,7 +55,7 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
     private int texSampler2DHandle;
     
     // Constants:
-    static final float kObjectScale = 3.f;
+    static final float kObjectScale = 3.f;//
     
     private Teapot mTeapot;
     private CubeObject mCube;
@@ -163,7 +163,9 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
             float[] modelViewProjection = new float[16];
             Matrix.translateM(modelViewMatrix, 0, 0.0f, 0.0f, kObjectScale);
             Matrix.scaleM(modelViewMatrix, 0, kObjectScale, kObjectScale,
-                kObjectScale);
+                kObjectScale);//adjust the size
+
+            Matrix.rotateM(modelViewMatrix, 0, 90, 0, 0, 1);
             Matrix.multiplyMM(modelViewProjection, 0, projectionMatrix, 0, modelViewMatrix, 0);
             
             GLES20.glUseProgram(shaderProgramID);
@@ -240,7 +242,7 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
 
 
 
-            Matrix.scaleM(mMatrixCurrent,0,3.0f,2.0f,3.0f);
+            //Matrix.scaleM(mMatrixCurrent,0,3.0f,2.0f,3.0f);
             GLES20.glDrawElements(GLES20.GL_TRIANGLES,
                     mThreeDText.getNumObjectIndex(), GLES20.GL_UNSIGNED_SHORT,
                     mThreeDText.getIndices());
