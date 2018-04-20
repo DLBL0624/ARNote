@@ -4,6 +4,11 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#575757</color>
+    <color name="m_orange">#FFCE9B</color>
+    <color name="m_green">#a7ff9b</color>
+    <color name="m_purple">#ad96d1</color>
+    <color name="m_red">#ff9bc0</color>
+    <color name="m_blue">#9bd9ff</color>
     <color name="light_gray">#D3D3D3</color>
     <color name="semi_transparent_black">#C8000000</color>
     <color name="transparent">#00000000</color>

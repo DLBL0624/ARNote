@@ -20,9 +20,8 @@ public class GLRenderer implements GLSurfaceView.Renderer {
     private float mScalef = 1f;
     private float mDegree = 0;
     private int[] deCodeString = new int[100];
-    private float[] color = {0.f,1.f,0.0f,1.0f};
 
-    public Message mes = new Message(0,0,"helloworld",color);
+    public Message mes = new Message(0,0,"helloworld",0);
 
 
     public GLRenderer(Context context) {

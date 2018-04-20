@@ -30,6 +30,7 @@ import com.vuforia.Tool;
 import com.vuforia.TrackableResult;
 import com.vuforia.Vuforia;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -45,16 +46,21 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
     private SampleAppRenderer mSampleAppRenderer;
 
     private boolean mIsActive = false;
-    
+
+    public final int ORANGE = 0;
+    public final int GREEN = 1;
+    public final int PURPLE = 2;
+    public final int RED = 3;
+    public final int BLUE = 4;
+
     private Vector<Texture> mTextures;
     private int shaderProgramID;
     private int vertexHandle;
     private int textureCoordHandle;
     private int mvpMatrixHandle;
     private int texSampler2DHandle;
-    //public Vector<Message> mess;\
-    public float[] color_mess = {1.0f,1.0f,1.0f,1.0f};
-    public Message mess = new Message(0,0,"I LOVE YOU",color_mess);
+    public ArrayList<Message> messLink;
+    public Message mess = new Message(0,0,"I LOVE YOU",GREEN);
     private int[] deCodeString = new int[100];
 
     // Constants:
@@ -192,7 +198,7 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
 
                 GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
                 GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
-                        mTextures.get(0).mTextureID[0]);
+                        mTextures.get(mess.getColor()).mTextureID[0]);
                 Matrix.translateM(modelViewProjection, 0, TextSpace, 0.0f, 0.0f);
                 GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
                         modelViewProjection, 0);
@@ -432,5 +438,6 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
         }
         deCodeString[str.length()] = '\0';
     }
+
 
 }

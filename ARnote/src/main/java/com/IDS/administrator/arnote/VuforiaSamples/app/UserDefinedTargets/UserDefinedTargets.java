@@ -26,9 +26,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
+import com.IDS.administrator.arnote.R;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationControl;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationException;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationSession;
@@ -47,7 +50,6 @@ import com.vuforia.Trackable;
 import com.vuforia.Tracker;
 import com.vuforia.TrackerManager;
 import com.vuforia.Vuforia;
-import com.IDS.administrator.arnote.R;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -82,7 +84,9 @@ public class UserDefinedTargets extends Activity implements
     int targetBuilderCounter = 1;
     
     DataSet dataSetUserDef = null;
-    
+
+    private int[][] ColorSets = new int [][]{{255,206,155},{167,255,155},{173,150,209},{255,155,192},{155,217,255}};
+
     private GestureDetector mGestureDetector;
     
     private SampleAppMenu mSampleAppMenu;
@@ -175,8 +179,16 @@ public class UserDefinedTargets extends Activity implements
     //add Texture to render
     private void loadTextures()
     {
-        mTextures.add(Texture.loadTextureFromApk("r.png",
+        mTextures.add(Texture.loadTextureFromApk("o.png",       //orange
             getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("g.png",       //green
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("p.png",       //purple
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("r.png",       //red
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("b.png",       //blue
+                getAssets()));
     }
     
     
@@ -389,8 +401,74 @@ public class UserDefinedTargets extends Activity implements
             startBuild();
         }
     }
-    
-    
+
+    //set the lifetime of the message
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.ThreeMins:
+                if (checked)
+                    mRenderer.mess.setLifeTime(180);
+                    break;
+            case R.id.TenMins:
+                if (checked)
+                    mRenderer.mess.setLifeTime(600);
+                    break;
+            case R.id.ThirtyMins:
+                if (checked)
+                    mRenderer.mess.setLifeTime(1800);
+                    break;
+        }
+
+    }
+
+    public void changeTheColor(View v) {
+        if(v.getId() == R.id.colorChange)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Choose Text Object");
+            final String[] strColor = {"Orange", "Green","Purple","Red","Blue"};
+            builder.setSingleChoiceItems(strColor, 1, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int i) {
+                    mRenderer.mess.setColor(i);
+                    Button button = (Button)findViewById(R.id.colorChange);
+
+                    switch(i){
+                        case 0:
+                            button.setForeground(getDrawable(R.color.m_orange));
+                            break;
+                        case 1:
+                            button.setForeground(getDrawable(R.color.m_green));
+                            break;
+                        case 2:
+                            button.setForeground(getDrawable(R.color.m_purple));
+                            break;
+                        case 3:
+                            button.setForeground(getDrawable(R.color.m_red));
+                            break;
+                        case 4:
+                            button.setForeground(getDrawable(R.color.m_blue));
+                            break;
+                    }
+
+                }
+            });
+            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+
+                }
+            });
+            builder.show();
+        }
+    }
+
+
     // Creates a texture given the filename
     Texture createTexture(String nName)
     {
@@ -925,5 +1003,6 @@ public class UserDefinedTargets extends Activity implements
         
         return result;
     }
+
     
 }
