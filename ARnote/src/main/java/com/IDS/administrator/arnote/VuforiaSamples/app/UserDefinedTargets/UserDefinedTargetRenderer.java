@@ -270,82 +270,82 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
         for (int i = 0; i < str.length(); i++) {
             switch (str.charAt(i)) {
                 case 'a':
-                    deCodeString[i] = 0;
+                    deCodeString[i] = 26;
                     break;
                 case 'b':
-                    deCodeString[i] = 1;
+                    deCodeString[i] = 27;
                     break;
                 case 'c':
-                    deCodeString[i] = 2;
+                    deCodeString[i] = 28;
                     break;
                 case 'd':
-                    deCodeString[i] = 3;
+                    deCodeString[i] = 29;
                     break;
                 case 'e':
-                    deCodeString[i] = 4;
+                    deCodeString[i] = 30;
                     break;
                 case 'f':
-                    deCodeString[i] = 5;
+                    deCodeString[i] = 31;
                     break;
                 case 'g':
-                    deCodeString[i] = 6;
+                    deCodeString[i] = 32;
                     break;
                 case 'h':
-                    deCodeString[i] = 7;
+                    deCodeString[i] = 33;
                     break;
                 case 'i':
-                    deCodeString[i] = 8;
+                    deCodeString[i] = 34;
                     break;
                 case 'j':
-                    deCodeString[i] = 9;
+                    deCodeString[i] = 35;
                     break;
                 case 'k':
-                    deCodeString[i] = 10;
+                    deCodeString[i] = 36;
                     break;
                 case 'l':
-                    deCodeString[i] = 11;
+                    deCodeString[i] = 37;
                     break;
                 case 'm':
-                    deCodeString[i] = 12;
+                    deCodeString[i] = 38;
                     break;
                 case 'n':
-                    deCodeString[i] = 13;
+                    deCodeString[i] = 39;
                     break;
                 case 'o':
-                    deCodeString[i] = 14;
+                    deCodeString[i] = 40;
                     break;
                 case 'p':
-                    deCodeString[i] = 15;
+                    deCodeString[i] = 41;
                     break;
                 case 'q':
-                    deCodeString[i] = 16;
+                    deCodeString[i] = 42;
                     break;
                 case 'r':
-                    deCodeString[i] = 17;
+                    deCodeString[i] = 43;
                     break;
                 case 's':
-                    deCodeString[i] = 18;
+                    deCodeString[i] = 44;
                     break;
                 case 't':
-                    deCodeString[i] = 19;
+                    deCodeString[i] = 45;
                     break;
                 case 'u':
-                    deCodeString[i] = 20;
+                    deCodeString[i] = 46;
                     break;
                 case 'v':
-                    deCodeString[i] = 21;
+                    deCodeString[i] = 47;
                     break;
                 case 'w':
-                    deCodeString[i] = 22;
+                    deCodeString[i] = 48;
                     break;
                 case 'x':
-                    deCodeString[i] = 23;
+                    deCodeString[i] = 49;
                     break;
                 case 'y':
-                    deCodeString[i] = 24;
+                    deCodeString[i] = 50;
                     break;
                 case 'z':
-                    deCodeString[i] = 25;
+                    deCodeString[i] = 51;
                     break;
                 case 'A':
                     deCodeString[i] = 26;
