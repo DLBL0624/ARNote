@@ -376,6 +376,7 @@ public class UserDefinedTargets extends Activity implements
     {
         if (isUserDefinedTargetsRunning())
         {
+            //Edit the Message
             final EditText mEditText = mUILayout.findViewById(R.id.InputMess);
             String InMessage = mEditText.getText().toString();
             mRenderer.mess.editMessage(InMessage);
@@ -484,7 +485,7 @@ public class UserDefinedTargets extends Activity implements
     }
     
     
-    void startBuild()
+    void startBuild()// track the image
     {
         TrackerManager trackerManager = TrackerManager.getInstance();
         ObjectTracker objectTracker = (ObjectTracker) trackerManager
