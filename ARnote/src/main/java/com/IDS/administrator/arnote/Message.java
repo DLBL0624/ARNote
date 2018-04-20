@@ -11,9 +11,6 @@ public class Message {
     private int _color;
 
 
-
-
-
     public Message()
     {
         this.lifeTime = 600;
