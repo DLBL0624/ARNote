@@ -26,6 +26,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationControl;
@@ -73,6 +74,7 @@ public class UserDefinedTargets extends Activity implements
     private RelativeLayout mUILayout;
     private View mBottomBar;
     private View mCameraButton;
+
     
     // Alert dialog for displaying SDK errors
     private AlertDialog mDialog;
@@ -357,6 +359,7 @@ public class UserDefinedTargets extends Activity implements
         
         // Gets a reference to the Camera button
         mCameraButton = mUILayout.findViewById(R.id.camera_button);
+
         
         // Gets a reference to the loading dialog container
         loadingDialogHandler.mLoadingDialogContainer = mUILayout
@@ -373,6 +376,10 @@ public class UserDefinedTargets extends Activity implements
     {
         if (isUserDefinedTargetsRunning())
         {
+            final EditText mEditText = mUILayout.findViewById(R.id.InputMess);
+            String InMessage = mEditText.getText().toString();
+            mRenderer.mess.editMessage(InMessage);
+
             // Shows the loading dialog
             loadingDialogHandler
                 .sendEmptyMessage(LoadingDialogHandler.SHOW_LOADING_DIALOG);
