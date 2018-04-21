@@ -1,15 +1,8 @@
 
 package com.IDS.administrator.arnote.SampleApplication.utils;
 
-import android.util.Log;
-
-import com.IDS.administrator.arnote.Message;
-import com.IDS.administrator.arnote.Model;
-import com.IDS.administrator.arnote.OBJReader;
-import com.IDS.administrator.arnote.VuforiaSamples.app.UserDefinedTargets.UserDefinedTargets;
-
-import java.io.IOException;
 import java.nio.Buffer;
+import java.util.ArrayList;
 
 public class ThreeDText extends MeshObject
 {
@@ -18,62 +11,69 @@ public class ThreeDText extends MeshObject
     private Buffer[] mTexCoordBuff = new Buffer[52];
     private Buffer[] mNormBuff = new Buffer[52];
     private Buffer[] mIndBuff = new Buffer[52];
-    public Model[] model = new Model[52];
-    private int[] indicesNumber = new int[52];
-    private int [] verticesNumber = new int[52];
-    public Message mess;
+    private ArrayList<float[]> mVert = new ArrayList<float[]>();
+    private ArrayList<float[]> mTexCoord = new ArrayList<float[]>();
+    private ArrayList<float[]> mNorm = new ArrayList<float[]>();
+    private ArrayList<short[]> mInd = new ArrayList<short[]>();
 
-    public ThreeDText(UserDefinedTargets context)
+    private int[] indicesNumber = new int[52];
+    private int[] verticesNumber = new int[52];
+
+    public ThreeDText()
     {
 
-        for (int i =0; i<26; i++) {
+    }
 
-            String str = (char)(97+i)+ "1.obj";
-            try {
-                System.out.println(i);
-                Log.d("threeDobject", "ThreeDText: " + i);
-                model[i] = new OBJReader().parserBinStlInAssets(context, str);//read alphabet
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            setVerts(model[i].getVerts(),i);
-            //for(int r = 0;r<model[i].getVerts().length;r++)Log.d("threeDobject", "Verts: " + r + " " + model[i].getVerts()[r]);
-            //Log.d("threeDobject", "Verts:" + model[i].getVerts());
-            setTexCoords(model[i].getTextureCoor(),i);
-            //for(int r = 0;r<model[i].getTextureCoor().length;r++)Log.d("threeDobject", "TextureCoor: " + r + " " + model[i].getTextureCoor()[r]);
-            setNorms(model[i].getVnorms(),i);
-            //for(int r = 0;r<model[i].getVnorms().length;r++)Log.d("threeDobject", "Norms: " + r + " " + model[i].getVnorms()[r]);
-            setIndices(model[i].getIndices(),i);
-            //for(int r = 0;r<model[i].getIndices().length;r++)Log.d("threeDobject", "Indices:"+ r + " " + model[i].getIndices()[r]);
+    public void loadExtraData()
+    {
+        for(int i =0;i<52;i++){
+            setVerts(mVert.get(i),i);
+            setTexCoords(mTexCoord.get(i),i);
+            setNorms(mNorm.get(i),i);
+            setIndices(mInd.get(i),i);
         }
-        for (int i =0; i<26; i++) {
-
-            String str = (char)(65+i)+ ".obj";
-            try {
-                System.out.println(i+26);
-                Log.d("threeDobject", "ThreeDText: " + (i+26));
-                model[i+26] = new OBJReader().parserBinStlInAssets(context, str);//read alphabet
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            setVerts(model[i+26].getVerts(),i+26);
-            //for(int r = 0;r<model[i].getVerts().length;r++)Log.d("threeDobject", "Verts: " + r + " " + model[i].getVerts()[r]);
-            //Log.d("threeDobject", "Verts:" + model[i].getVerts());
-            setTexCoords(model[i+26].getTextureCoor(),i+26);
-            //for(int r = 0;r<model[i].getTextureCoor().length;r++)Log.d("threeDobject", "TextureCoor: " + r + " " + model[i].getTextureCoor()[r]);
-            setNorms(model[i+26].getVnorms(),i+26);
-            //for(int r = 0;r<model[i].getVnorms().length;r++)Log.d("threeDobject", "Norms: " + r + " " + model[i].getVnorms()[r]);
-            setIndices(model[i+26].getIndices(),i+26);
-            //for(int r = 0;r<model[i].getIndices().length;r++)Log.d("threeDobject", "Indices:"+ r + " " + model[i].getIndices()[r]);
-        }
-
-
     }
 
 
 
+    public void setV(ArrayList<float[]> v)
+    {
+        this.mVert = v;
+    }
+
+    public void setT(ArrayList<float[]> t)
+    {
+        this.mTexCoord = t;
+    }
+
+    public void setN(ArrayList<float[]> n)
+    {
+        this.mNorm = n;
+    }
+    public void setI(ArrayList<short[]> i)
+    {
+        this.mInd = i;
+    }
+
+    public ArrayList<float[]> getV()
+    {
+        return mVert;
+    }
+
+    public ArrayList<float[]> getT()
+    {
+        return mTexCoord;
+    }
+
+    public ArrayList<float[]> getN()
+    {
+        return mNorm;
+    }
+
+    public ArrayList<short[]> getI()
+    {
+        return mInd;
+    }
 
     private void setVerts( float [] STRING_VERIS, int index )
     {
@@ -103,7 +103,7 @@ public class ThreeDText extends MeshObject
         indicesNumber[index] = STRING_INDICES.length;
     }
 
-
+    @Override
     public int getNumObjectIndex(int index)
     {
         return indicesNumber[index];
@@ -115,6 +115,38 @@ public class ThreeDText extends MeshObject
     {
         return verticesNumber[index];
     }
+
+    public Buffer[] getmVertBuff(){ return mVertBuff;}
+    public Buffer[] getmTexCoordBuff(){ return mTexCoordBuff;}
+    public Buffer[] getmNormBuff(){ return mNormBuff;}
+    public Buffer[] getmIndBuff(){ return mIndBuff;}
+
+    public int[] getNumIndex()
+    {
+        return indicesNumber;
+    }
+    public int[] getNumVertex()
+    {
+        return verticesNumber;
+    }
+
+    public void setmVertBuff(Buffer[] mVertBuff){ this.mVertBuff = mVertBuff;}
+    public void setmTexCoordBuff(Buffer[] mTexCoordBuff){ this.mTexCoordBuff = mTexCoordBuff;}
+    public void setmNormBuff(Buffer[] mNormBuff){ this.mNormBuff =  mNormBuff;}
+    public void setmIndBuff(Buffer[] mIndBuff){ this.mIndBuff =  mIndBuff;}
+
+    public void setNumIndex(int[] indicesNumber)
+    {
+        this. indicesNumber = indicesNumber;
+    }
+    public void setNumVertex(int[] verticesNumber)
+    {
+        this. verticesNumber =  verticesNumber;
+    }
+
+
+
+
 
     @Override
     public int getNumObjectIndex()

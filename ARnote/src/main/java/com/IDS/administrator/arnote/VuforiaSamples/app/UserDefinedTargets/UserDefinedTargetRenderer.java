@@ -69,7 +69,7 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
     
     //private Teapot mTeapot;
     //private CubeObject mCube;
-    private ThreeDText mThreeDText;
+    public ThreeDText mThreeDText;
     // Reference to main activity
     private UserDefinedTargets mActivity;
 
@@ -84,6 +84,8 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
     {
         mActivity = activity;
         vuforiaAppSession = session;
+
+        mThreeDText = new ThreeDText();
         Log.d("Initial???", "UserDefinedTargetRenderer: ");
         // SampleAppRenderer used to encapsulate the use of RenderingPrimitives setting
         // the device mode AR/VR and stereo mode
@@ -172,12 +174,13 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
             
             float[] modelViewProjection = new float[16];
 
-            Matrix.translateM(modelViewMatrix, 0, 0.0f, 0.0f, kObjectScale);
+            Matrix.translateM(modelViewMatrix, 0, 0.0f, 0.0f, -kObjectScale);
             Matrix.scaleM(modelViewMatrix, 0, kObjectScale, kObjectScale,
-                kObjectScale);//adjust the size
+                    2 * kObjectScale);//adjust the size
 
             Matrix.rotateM(modelViewMatrix, 0, 90, 0, 0, 1);
             Matrix.multiplyMM(modelViewProjection, 0, projectionMatrix, 0, modelViewMatrix, 0);
+            //Matrix.scaleM(modelViewProjection,0,0,0,200.f);
             
             GLES20.glUseProgram(shaderProgramID);
 
@@ -186,10 +189,10 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
 
             for(int t = 0; deCodeString[t]!='\0'; t++) {
                 //TEAPOT @ToDO THREEdTEXT
-                if(deCodeString[t]!=52)GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
+                if(deCodeString[t]!=53)GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
                         false, 0, mThreeDText.getVertices(deCodeString[t]));
 
-                if(deCodeString[t]!=52)GLES20.glVertexAttribPointer(textureCoordHandle, 2,
+                if(deCodeString[t]!=53)GLES20.glVertexAttribPointer(textureCoordHandle, 2,
                         GLES20.GL_FLOAT, false, 0, mThreeDText.getTexCoords(deCodeString[t]));
 
                 //@todo texture switch
@@ -199,14 +202,14 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
                 GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
                 GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
                         mTextures.get(mess.getColor()).mTextureID[0]);
-                Matrix.translateM(modelViewProjection, 0, TextSpace, 0.0f, 0.0f);
+                Matrix.translateM(modelViewProjection, 0, deCodeString[t]==53?TextSpace/2:TextSpace, 0.0f, 0.0f);
                 GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
                         modelViewProjection, 0);
                 GLES20.glUniform1i(texSampler2DHandle, 0);
 
 
                 //Matrix.scaleM(mMatrixCurrent,0,3.0f,2.0f,3.0f);
-                if(deCodeString[t]!=52)GLES20.glDrawElements(GLES20.GL_TRIANGLES,
+                if(deCodeString[t]!=53)GLES20.glDrawElements(GLES20.GL_TRIANGLES,
                         mThreeDText.getNumObjectIndex(deCodeString[t]), GLES20.GL_UNSIGNED_SHORT,
                         mThreeDText.getIndices(deCodeString[t]));
 
@@ -228,7 +231,7 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
         Log.d(LOGTAG, "initRendering");
         
         //mTeapot = new Teapot();// the shape shown
-        mThreeDText = new ThreeDText(mActivity);
+
         //mCube = new CubeObject();
         // Define clear color
         GLES20.glClearColor(0.0f, 0.0f, 0.0f, Vuforia.requiresAlpha() ? 0.0f
@@ -431,8 +434,11 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
                 case 'Z':
                     deCodeString[i] = 51;
                     break;
-                case ' ':
+                case '&':
                     deCodeString[i] = 52;
+                    break;
+                case ' ':
+                    deCodeString[i] = 53;
                     break;
             }
         }

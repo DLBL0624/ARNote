@@ -13,6 +13,7 @@ package com.IDS.administrator.arnote.VuforiaSamples.app.UserDefinedTargets;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -38,6 +39,7 @@ import com.IDS.administrator.arnote.SampleApplication.SampleApplicationSession;
 import com.IDS.administrator.arnote.SampleApplication.utils.LoadingDialogHandler;
 import com.IDS.administrator.arnote.SampleApplication.utils.SampleApplicationGLView;
 import com.IDS.administrator.arnote.SampleApplication.utils.Texture;
+import com.IDS.administrator.arnote.VuforiaSamples.ui.ActivityList.ActivitySplash;
 import com.IDS.administrator.arnote.VuforiaSamples.ui.SampleAppMenu.SampleAppMenu;
 import com.IDS.administrator.arnote.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuGroup;
 import com.IDS.administrator.arnote.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuInterface;
@@ -111,6 +113,9 @@ public class UserDefinedTargets extends Activity implements
     protected void onCreate(Bundle savedInstanceState)
     {
         Log.d(LOGTAG, "onCreate");
+
+
+
         super.onCreate(savedInstanceState);
         
         vuforiaAppSession = new SampleApplicationSession(this);
@@ -326,6 +331,24 @@ public class UserDefinedTargets extends Activity implements
     // Initializes AR application components.
     private void initApplicationAR()
     {
+        Intent intent = getIntent();
+        Bundle extras = getIntent().getExtras();
+
+
+//        ArrayList<float[]> mVertBuff = (ArrayList<float[]>)extras.getSerializable("mVertBuff");
+//        ArrayList<float[]> mTexCoordBuff = (ArrayList<float[]>)extras.getSerializable("mTexCoordBuff");
+//        ArrayList<float[]> mNormBuff = (ArrayList<float[]>)extras.getSerializable("mNormBuff");
+//        ArrayList<short[]> mIndBuff = (ArrayList<short[]>)extras.getSerializable("mIndBuff");
+//        int[] verticesNumber = extras.getIntArray("verticesNumber");
+//        int[] indicesNumber = extras.getIntArray("indicesNumber");
+
+        ArrayList<float[]> mVertBuff = ActivitySplash.mVertBuff;
+        ArrayList<float[]> mTexCoordBuff = ActivitySplash.mTexCoordBuff;
+        ArrayList<float[]> mNormBuff = ActivitySplash.mNormBuff;
+        ArrayList<short[]> mIndBuff = ActivitySplash.mIndBuff;
+        int[] verticesNumber = ActivitySplash.verticesNumber;
+        int[] indicesNumber = ActivitySplash.indicesNumber;
+
         // Do application initialization
         refFreeFrame = new RefFreeFrame(this, vuforiaAppSession);
         refFreeFrame.init();// just get the texture
@@ -339,6 +362,14 @@ public class UserDefinedTargets extends Activity implements
         mGlView.init(translucent, depthSize, stencilSize);
         
         mRenderer = new UserDefinedTargetRenderer(this, vuforiaAppSession);
+        mRenderer.mThreeDText.setV(mVertBuff);
+        mRenderer.mThreeDText.setT(mTexCoordBuff);
+        mRenderer.mThreeDText.setN(mNormBuff);
+        mRenderer.mThreeDText.setI(mIndBuff);
+        mRenderer.mThreeDText.setNumVertex(verticesNumber);
+        mRenderer.mThreeDText.setNumIndex(indicesNumber);
+        mRenderer.mThreeDText.loadExtraData();
+
         mRenderer.setTextures(mTextures);//Texture Loading
         mGlView.setRenderer(mRenderer);
     }
