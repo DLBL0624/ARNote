@@ -68,5 +68,9 @@
         
     <string name="splash_screen_description">Vuforia Splash</string>
     <string name="error_permission_needed">\"Haven\'t received any permission Result of Camera!\"</string>
+    <string name="error_permission_map_needed">\"Haven\'t received any permission Result of GoogleMap!\"</string>
+    <string name="permission_required_toast">Location permission is required for this application.</string>
+    <string name="location_permission_denied">This application requires location permission</string>
+    <string name="permission_rationale_location">Access to the location service is required to demonstrate the \'my location\' feature, which shows your current location on the map.</string>
 
-</resources>
+    </resources>

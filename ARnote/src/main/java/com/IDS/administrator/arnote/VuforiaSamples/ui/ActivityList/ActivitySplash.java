@@ -15,10 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup.LayoutParams;
@@ -40,8 +37,10 @@ public class ActivitySplash extends Activity
 {
 
     private static long SPLASH_MILLIS = 450;
+
     private String mClassToLaunchPackage = "com.IDS.administrator.arnote";
     private String mClassToLaunch = "com.IDS.administrator.arnote.VuforiaSamples.app.UserDefinedTargets.UserDefinedTargets";
+
     public ThreeDText tdt;
     public static ArrayList<float[]> mVertBuff = new ArrayList<float[]>();
     public static ArrayList<float[]> mTexCoordBuff = new ArrayList<float[]>();
@@ -49,19 +48,20 @@ public class ActivitySplash extends Activity
     public static ArrayList<short[]> mIndBuff = new ArrayList<short[]>();
     public static int[] indicesNumber = new int[53];
     public static int[] verticesNumber = new int[53];
-
     public Model[] model = new Model[53];
 
-//if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-//        == PackageManager.PERMISSION_GRANTED) {
-//    mMap.setMyLocationEnabled(true);
-//} else {
-//    // Show rationale and request permission.
-//}
+    String[] mutiPermissions = new String[]{Manifest.permission.CAMERA,Manifest.permission.ACCESS_FINE_LOCATION};
+    ArrayList<String> needRequest = new ArrayList<>();
+
+
+
+    public final static int REQUEST_CODE_CAMERA = 624;
+    public final static int REQUEST_CODE_MAP = 519;
+    public final static int REQUEST_CODE_ASK_MUTI_PERMISSIONS = 928;
+//
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -75,38 +75,79 @@ public class ActivitySplash extends Activity
                 LayoutParams.MATCH_PARENT));
 
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable()
-        {
-
-            @Override
-            public void run()
-            {
-                if (ContextCompat.checkSelfPermission(ActivitySplash.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(ActivitySplash.this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-                }
-                else {
-                    startARActivity();
-                }
-            }
-
-        }, SPLASH_MILLIS);
-
-
-
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (requestCode == 0) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startARActivity();
-            } else {
-                Toast.makeText(getApplicationContext(), getString(R.string.error_permission_needed), Toast.LENGTH_LONG).show();
+        //traverse all the permissions
+        for (String permission : mutiPermissions) {
+            int check = checkSelfPermission(permission);
+            if (check != PackageManager.PERMISSION_GRANTED) {
+                needRequest.add(permission);
+                Log.d("RuntimePermissionDemo", "needCheck: " + permission);
             }
         }
+
+        if (needRequest.size() > 0) {
+            requestPermissions(needRequest.toArray(new String[needRequest.size()]), REQUEST_CODE_ASK_MUTI_PERMISSIONS);
+
+        } else {
+            startARActivity();
+        }
+
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode) {//根据请求码判断是哪一次申请的权限
+            case REQUEST_CODE_CAMERA:
+                if (grantResults.length > 0) {//grantResults 数组中存放的是授权结果
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//同意授权
+                        //授权后做一些你想做的事情，即原来不需要动态授权时做的操作
+
+                    }else {//用户拒绝授权
+                        //可以简单提示用户
+                        Toast.makeText(ActivitySplash.this, "Need Camera permission", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+            case REQUEST_CODE_MAP:
+                if (grantResults.length > 0) {//grantResults 数组中存放的是授权结果
+                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//同意授权
+                        //授权后做一些你想做的事情，即原来不需要动态授权时做的操作
+
+                    }else {//用户拒绝授权
+                        //可以简单提示用户
+                        Toast.makeText(ActivitySplash.this, "Need Location permission", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                break;
+            case REQUEST_CODE_ASK_MUTI_PERMISSIONS:
+                if (grantResults.length > 0) {
+                    // list of permission denied
+                    ArrayList<String> deniedPermissions = new ArrayList<>();
+
+                    for (int i=0; i<grantResults.length; i++) {
+                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                            deniedPermissions.add(permissions[i]);
+                            Log.d("RuntimePermissionDemo", "Denied Permission: " + permissions[i]);
+                        }
+                    }
+                    if (deniedPermissions.size() <= 0) {//已全部授权
+                        //MapPane.mMap.setMyLocationEnabled(true);
+                        startARActivity();
+                    }else {//没有全部授权
+                        Toast.makeText(ActivitySplash.this, "Missing part of permission", Toast.LENGTH_SHORT).show();
+
+
+                    }
+                }
+
+                break;
+            default: super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+
+
+
 
     private void startARActivity()
     {
