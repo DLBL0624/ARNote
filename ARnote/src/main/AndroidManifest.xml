@@ -98,9 +98,15 @@
             android:launchMode="singleTask"
             >
         </activity>
-
         <activity
             android:name="com.IDS.administrator.arnote.VuforiaSamples.app.ObjectRecognition.ObjectTargets"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
+            android:theme="@style/SampleAppsTheme"
+            android:launchMode="singleTask"
+            >
+        </activity>
+        <activity
+            android:name="com.IDS.administrator.arnote.Map.MapPane"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:theme="@style/SampleAppsTheme"
             android:launchMode="singleTask"

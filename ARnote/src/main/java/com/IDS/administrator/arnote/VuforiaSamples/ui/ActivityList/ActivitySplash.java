@@ -52,7 +52,12 @@ public class ActivitySplash extends Activity
 
     public Model[] model = new Model[53];
 
-
+//if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+//        == PackageManager.PERMISSION_GRANTED) {
+//    mMap.setMyLocationEnabled(true);
+//} else {
+//    // Show rationale and request permission.
+//}
 
     @Override
     public void onCreate(Bundle savedInstanceState)

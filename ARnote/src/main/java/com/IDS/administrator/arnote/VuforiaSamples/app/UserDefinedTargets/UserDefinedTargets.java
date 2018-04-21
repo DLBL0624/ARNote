@@ -32,6 +32,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
+import com.IDS.administrator.arnote.Map.MapPane;
 import com.IDS.administrator.arnote.R;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationControl;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationException;
@@ -78,8 +79,9 @@ public class UserDefinedTargets extends Activity implements
     private RelativeLayout mUILayout;
     private View mBottomBar;
     private View mCameraButton;
+    private View mMessageButton;
+    private View mMapButton;
 
-    
     // Alert dialog for displaying SDK errors
     private AlertDialog mDialog;
     
@@ -117,9 +119,9 @@ public class UserDefinedTargets extends Activity implements
 
 
         super.onCreate(savedInstanceState);
-        
+
         vuforiaAppSession = new SampleApplicationSession(this);
-        
+
         vuforiaAppSession
             .initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
@@ -135,7 +137,28 @@ public class UserDefinedTargets extends Activity implements
 
         addOverlayView(true);
     }
-    
+
+    public void OnMesClick(View view) {
+        if( view.getId()==R.id.m_add) {
+
+        }
+    }
+
+    public void OnAddClick(View view) {
+        if( view.getId()==R.id.m_add) {
+
+        }
+    }
+
+    public void OnMapClick(View view) {
+        if( view.getId()==R.id.m_map) {
+            Intent i = new Intent(UserDefinedTargets.this, MapPane.class);
+            startActivity(i);
+        }
+    }
+
+
+
     // Process Single Tap event to trigger autofocus
     private class GestureListener extends
         GestureDetector.SimpleOnGestureListener
@@ -402,8 +425,8 @@ public class UserDefinedTargets extends Activity implements
         
         // Gets a reference to the Camera button
         mCameraButton = mUILayout.findViewById(R.id.camera_button);
-
-        
+        mMessageButton = mUILayout.findViewById(R.id.m_mes);
+        mMapButton = mUILayout.findViewById(R.id.m_map);
         // Gets a reference to the loading dialog container
         loadingDialogHandler.mLoadingDialogContainer = mUILayout
             .findViewById(R.id.loading_layout);
@@ -432,6 +455,8 @@ public class UserDefinedTargets extends Activity implements
             startBuild();
         }
     }
+
+
 
     //set the lifetime of the message
     public void onRadioButtonClicked(View view) {
@@ -528,6 +553,8 @@ public class UserDefinedTargets extends Activity implements
         // Shows the bottom bar
         mBottomBar.setVisibility(View.VISIBLE);
         mCameraButton.setVisibility(View.VISIBLE);
+        mMessageButton.setVisibility(View.VISIBLE);
+        mMapButton.setVisibility(View.VISIBLE);
     }
     
     
