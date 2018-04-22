@@ -477,8 +477,8 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
             for(int i =0;i<MessageManager.messList.size();i++) {
                 if (index == MessageManager.messList.get(i).getIndex())
                 {
-                    if(inverse){this.mess = MessageManager.messList.get(MessageManager.messList.size() -1);}
-                    else{this.mess = MessageManager.messList.get(MessageManager.messList.size() -1 - index);}
+                    if(!inverse){this.mess = MessageManager.messList.get(MessageManager.messList.size() -1);}
+                    else{this.mess = MessageManager.messList.get(index);}
                 }
             }
     }
