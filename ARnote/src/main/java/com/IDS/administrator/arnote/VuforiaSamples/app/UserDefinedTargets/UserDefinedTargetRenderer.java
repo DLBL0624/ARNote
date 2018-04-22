@@ -178,7 +178,7 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
             {
                 if(tId == trackableResult.getTrackable().getId())
                 {
-                    trackableID = state.getNumTrackables() - tId;
+                    trackableID = tId;
                     break;
                 }
             }
