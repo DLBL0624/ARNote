@@ -201,12 +201,12 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
             
             GLES20.glUseProgram(shaderProgramID);
 
-            if(trackableID==state.getNumTrackables()-1)
+            if(trackableID==0)
             {
-                getMessIndes(trackableID,false);
+                getMessIndes(trackableID,false);// trackable == 0 mess = 当前最大数字
             }
             else{
-                getMessIndes(trackableID,true);
+                getMessIndes(trackableID-1,true);//trackable != 0 mess
             }
 
             Log.d("onCameraClick: ", "renderFrame: tId = " + trackableID);

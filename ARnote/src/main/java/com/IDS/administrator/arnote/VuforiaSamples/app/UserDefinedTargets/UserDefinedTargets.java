@@ -225,7 +225,7 @@ public class UserDefinedTargets extends Activity implements
                 getAssets()));
     }
     
-    
+
     // Called when the activity will start interacting with the user.
     @Override
     protected void onResume()
@@ -268,7 +268,7 @@ public class UserDefinedTargets extends Activity implements
         }
     }
     
-    
+
     // The final call you receive before your activity is destroyed.
     @Override
     protected void onDestroy()

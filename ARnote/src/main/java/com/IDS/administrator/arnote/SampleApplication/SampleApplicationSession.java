@@ -250,7 +250,7 @@ public class SampleApplicationSession implements UpdateCallbackInterface
             boolean deinitTrackersResult;
             
             // Destroy the tracking data set:
-            unloadTrackersResult = mSessionControl.doUnloadTrackersData();
+            unloadTrackersResult = mSessionControl.doUnloadTrackersData();//@todo tried to save the tracker Data
             
             // Deinitialize the trackers:
             deinitTrackersResult = mSessionControl.doDeinitTrackers();
