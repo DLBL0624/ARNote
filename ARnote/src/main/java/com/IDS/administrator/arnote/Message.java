@@ -9,6 +9,7 @@ public class Message {
     private int lifeTime;
     //private GLRenderer glr;
     private int _color;
+    private int index;
 
 
     public Message()
@@ -17,6 +18,7 @@ public class Message {
     }
 
     public Message(double locationX, double locationY, String InputMes, int ST, int color) {
+
         this.locationX = locationX;
         this.locationY = locationY;
         this.mes = InputMes;
@@ -39,6 +41,18 @@ public class Message {
         this.mes = InputMes;
         this.lifeTime = 600;
     }
+
+    public Message(Message externalMes)
+    {
+        this.mes = externalMes.mes;
+        this.locationX = externalMes.locationX;
+        this.locationY = externalMes.locationY;
+        this._color = externalMes._color;
+        this.lifeTime = externalMes.lifeTime;
+        this.index = index;
+
+    }
+
 
     public void editMessage(String InputMes){
         this.mes = InputMes;
@@ -67,11 +81,23 @@ public class Message {
         this.locationY = locationY;
     }
 
+    public void setIndex(int index)
+    {
+        this.index = index;
+    }
+
+    public int getIndex()
+    {
+        return this.index;
+    }
 
     public int getColor()
     {
         return this._color;
 
     }
+
+
+
 
 }

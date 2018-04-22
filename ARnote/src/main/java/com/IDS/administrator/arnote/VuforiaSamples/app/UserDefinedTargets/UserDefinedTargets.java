@@ -32,7 +32,9 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
+import com.IDS.administrator.arnote.ActivitySplash;
 import com.IDS.administrator.arnote.Map.MapPane;
+import com.IDS.administrator.arnote.Message;
 import com.IDS.administrator.arnote.MessageManager;
 import com.IDS.administrator.arnote.R;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationControl;
@@ -41,7 +43,6 @@ import com.IDS.administrator.arnote.SampleApplication.SampleApplicationSession;
 import com.IDS.administrator.arnote.SampleApplication.utils.LoadingDialogHandler;
 import com.IDS.administrator.arnote.SampleApplication.utils.SampleApplicationGLView;
 import com.IDS.administrator.arnote.SampleApplication.utils.Texture;
-import com.IDS.administrator.arnote.ActivitySplash;
 import com.IDS.administrator.arnote.VuforiaSamples.ui.SampleAppMenu.SampleAppMenu;
 import com.IDS.administrator.arnote.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuGroup;
 import com.IDS.administrator.arnote.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuInterface;
@@ -83,9 +84,12 @@ public class UserDefinedTargets extends Activity implements
     private View mMessageButton;
     private View mMapButton;
 
+    public Message mess = new Message(0,0,"I LOVE YOU",0);//Default
+
     // Alert dialog for displaying SDK errors
     private AlertDialog mDialog;
-    
+
+
     int targetBuilderCounter = 1;
     
     DataSet dataSetUserDef = null;
@@ -109,7 +113,8 @@ public class UserDefinedTargets extends Activity implements
     
     boolean mIsDroidDevice = false;
     
-    
+
+
     // Called when the activity first starts or needs to be recreated after
     // resuming the application or a configuration change.
     @Override
@@ -308,8 +313,8 @@ public class UserDefinedTargets extends Activity implements
         
         addOverlayView(false);
     }
-    
-    
+
+
     // Shows error message in a system dialog box
     private void showErrorDialog()
     {
@@ -359,13 +364,6 @@ public class UserDefinedTargets extends Activity implements
         Bundle extras = getIntent().getExtras();
 
 
-//        ArrayList<float[]> mVertBuff = (ArrayList<float[]>)extras.getSerializable("mVertBuff");
-//        ArrayList<float[]> mTexCoordBuff = (ArrayList<float[]>)extras.getSerializable("mTexCoordBuff");
-//        ArrayList<float[]> mNormBuff = (ArrayList<float[]>)extras.getSerializable("mNormBuff");
-//        ArrayList<short[]> mIndBuff = (ArrayList<short[]>)extras.getSerializable("mIndBuff");
-//        int[] verticesNumber = extras.getIntArray("verticesNumber");
-//        int[] indicesNumber = extras.getIntArray("indicesNumber");
-
         ArrayList<float[]> mVertBuff = ActivitySplash.mVertBuff;
         ArrayList<float[]> mTexCoordBuff = ActivitySplash.mTexCoordBuff;
         ArrayList<float[]> mNormBuff = ActivitySplash.mNormBuff;
@@ -384,7 +382,8 @@ public class UserDefinedTargets extends Activity implements
         
         mGlView = new SampleApplicationGLView(this);
         mGlView.init(translucent, depthSize, stencilSize);
-        
+
+        //load graphics data
         mRenderer = new UserDefinedTargetRenderer(this, vuforiaAppSession);
         mRenderer.mThreeDText.setV(mVertBuff);
         mRenderer.mThreeDText.setT(mTexCoordBuff);
@@ -446,10 +445,17 @@ public class UserDefinedTargets extends Activity implements
             //Edit the Message
             final EditText mEditText = mUILayout.findViewById(R.id.InputMess);
             String InMessage = mEditText.getText().toString();
-            mRenderer.mess.editMessage(InMessage);
-            mRenderer.mess.setLocationX(MessageManager.latitude);
-            mRenderer.mess.setLocationY(MessageManager.longitude);
-            MessageManager.messList.add(mRenderer.mess);
+
+            mess.editMessage(InMessage);
+            mess.setLocationX(MessageManager.latitude);
+            mess.setLocationY(MessageManager.longitude);
+            Message mes = new Message(mess);
+
+            mes.setIndex(MessageManager.index++);
+
+            Log.d("onCameraClick", "onCameraClick: Index = "+mes.getIndex());
+            MessageManager.messList.add(mes);
+
 
             // Shows the loading dialog
             loadingDialogHandler
@@ -470,15 +476,15 @@ public class UserDefinedTargets extends Activity implements
         switch(view.getId()) {
             case R.id.ThreeMins:
                 if (checked)
-                    mRenderer.mess.setLifeTime(180);
+                    mess.setLifeTime(180);
                     break;
             case R.id.TenMins:
                 if (checked)
-                    mRenderer.mess.setLifeTime(600);
+                    mess.setLifeTime(600);
                     break;
             case R.id.ThirtyMins:
                 if (checked)
-                    mRenderer.mess.setLifeTime(1800);
+                    mess.setLifeTime(1800);
                     break;
         }
 
@@ -493,7 +499,7 @@ public class UserDefinedTargets extends Activity implements
             builder.setSingleChoiceItems(strColor, 1, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int i) {
-                    mRenderer.mess.setColor(i);
+                    mess.setColor(i);
                     Button button = (Button)findViewById(R.id.colorChange);
 
                     switch(i){
@@ -557,8 +563,6 @@ public class UserDefinedTargets extends Activity implements
         // Shows the bottom bar
         mBottomBar.setVisibility(View.VISIBLE);
         mCameraButton.setVisibility(View.VISIBLE);
-        mMessageButton.setVisibility(View.VISIBLE);
-        mMapButton.setVisibility(View.VISIBLE);
     }
     
     
@@ -571,27 +575,31 @@ public class UserDefinedTargets extends Activity implements
         
         return mGestureDetector.onTouchEvent(event);
     }
-    
-    
+
+    //@todo start Scanner
     boolean startUserDefinedTargets()
     {
         Log.d(LOGTAG, "startUserDefinedTargets");
         
         TrackerManager trackerManager = TrackerManager.getInstance();
         ObjectTracker objectTracker = (ObjectTracker) (trackerManager
-            .getTracker(ObjectTracker.getClassType()));
+            .getTracker(ObjectTracker.getClassType()));//image tracker
+
+
         if (objectTracker != null)
         {
             ImageTargetBuilder targetBuilder = objectTracker
                 .getImageTargetBuilder();
-            
+
+
+
             if (targetBuilder != null)
             {
                 // if needed, stop the target builder
                 if (targetBuilder.getFrameQuality() != ImageTargetBuilder.FRAME_QUALITY.FRAME_QUALITY_NONE)
                     targetBuilder.stopScan();
                 
-                objectTracker.stop();
+                objectTracker.stop();//currently stop Object Tracker
                 
                 targetBuilder.startScan();
                 
@@ -602,7 +610,7 @@ public class UserDefinedTargets extends Activity implements
         return true;
     }
     
-    
+
     boolean isUserDefinedTargetsRunning()
     {
         TrackerManager trackerManager = TrackerManager.getInstance();
@@ -625,7 +633,7 @@ public class UserDefinedTargets extends Activity implements
     }
     
     
-    void startBuild()// track the image
+    void startBuild()//
     {
         TrackerManager trackerManager = TrackerManager.getInstance();
         ObjectTracker objectTracker = (ObjectTracker) trackerManager
@@ -645,7 +653,7 @@ public class UserDefinedTargets extends Activity implements
                 String name;
                 do
                 {
-                    name = "UserTarget-" + targetBuilderCounter;
+                    name = "UserTarget-" + targetBuilderCounter;//count the target image created
                     Log.d(LOGTAG, "TRYING " + name);//
                     targetBuilderCounter++;
                 } while (!targetBuilder.build(name, 320.0f));
@@ -729,8 +737,12 @@ public class UserDefinedTargets extends Activity implements
         
         Tracker objectTracker = TrackerManager.getInstance().getTracker(
             ObjectTracker.getClassType());
-        if (objectTracker != null)
+        if (objectTracker != null) {
             objectTracker.start();
+            //@todo try get the tracker index here
+
+
+        }
         
         return result;
     }
@@ -768,7 +780,8 @@ public class UserDefinedTargets extends Activity implements
                 LOGTAG,
                 "Failed to destroy the tracking data set because the ObjectTracker has not been initialized.");
         }
-        
+
+        //destroy the tracking data set
         if (dataSetUserDef != null)
         {
             if (objectTracker.getActiveDataSet(0) != null
@@ -933,7 +946,7 @@ public class UserDefinedTargets extends Activity implements
         });
     }
     
-    
+    //@todo save or get from database
     @Override
     public void onVuforiaUpdate(State state)
     {
@@ -952,8 +965,8 @@ public class UserDefinedTargets extends Activity implements
             // Clear the oldest target if the dataset is full or the dataset
             // already contains five user-defined targets.
             if (dataSetUserDef.hasReachedTrackableLimit()
-                || dataSetUserDef.getNumTrackables() >= 5)
-                dataSetUserDef.destroy(dataSetUserDef.getTrackable(0));
+                || dataSetUserDef.getNumTrackables() >= 5)//image target storage limited
+                dataSetUserDef.destroy(dataSetUserDef.getTrackable(0));// destroy the first trackable thing
             
             if (mExtendedTracking && dataSetUserDef.getNumTrackables() > 0)
             {
@@ -969,8 +982,9 @@ public class UserDefinedTargets extends Activity implements
             
             // Add new trackable source
             Trackable trackable = dataSetUserDef
-                .createTrackable(refFreeFrame.getNewTrackableSource());
-            
+                .createTrackable(refFreeFrame.getNewTrackableSource());//get new trackable source and return new image target
+
+
             // Reactivate current dataset
             objectTracker.activateDataSet(dataSetUserDef);
             
@@ -1066,5 +1080,79 @@ public class UserDefinedTargets extends Activity implements
         return result;
     }
 
+
+
+
+
+
+
+
+
+
+
+
+    /// <summary>
+    /// Takes a new trackable source and adds it to the dataset
+    /// This gets called automatically as soon as you 'BuildNewTarget with UserDefinedTargetBuildingBehaviour
+    /// </summary>
+//    public void OnNewTrackableSource(TrackableSource trackableSource)
+//    {
+//        mTargetCounter++;
+//
+//        // deactivates the dataset first
+//        mObjectTracker.DeactivateDataSet(mBuiltDataSet);
+//
+//        // Destroy the oldest target if the dataset is full or the dataset
+//        // already contains five user-defined targets.
+//        if (mBuiltDataSet.HasReachedTrackableLimit() || mBuiltDataSet.GetTrackables().Count() >= 5)
+//        {
+//            IEnumerable<Trackable> trackables = mBuiltDataSet.GetTrackables();
+//            Trackable oldest = null;
+//            foreach (Trackable trackable in trackables)
+//            if (oldest == null || trackable.ID < oldest.ID)
+//                oldest = trackable;
+//
+//            if (oldest != null)
+//            {
+//                Debug.Log("Destroying oldest trackable in UDT dataset: " + oldest.Name);
+//                mBuiltDataSet.Destroy(oldest, true);
+//            }
+//        }
+//        // get predefined trackable and instantiate it
+//        //
+//        ImageTargetBehaviour imageTargetCopy = (ImageTargetBehaviour)Instantiate(ImageTargetTemplate);
+//        imageTargetCopy.gameObject.name = "UserDefinedTarget-" + mTargetCounter;
+//
+//        // add the duplicated trackable to the data set and activate it
+//        mBuiltDataSet.CreateTrackable(trackableSource, imageTargetCopy.gameObject);
+//
+//        // activate the dataset again
+//        mObjectTracker.ActivateDataSet(mBuiltDataSet);
+//
+//        //Extended Tracking with user defined targets only works with the most recently defined target.
+//        //If tracking is enabled on previous target, it will not work on newly defined target.
+//        //Don't need to call this if you don't care about extended tracking.
+//        StopExtendedTracking();
+//        mObjectTracker.Stop();
+//        mObjectTracker.ResetExtendedTracking();
+//        mObjectTracker.Start();
+//// 根据mTargetCounter 判断是第几个Target，1表示第一个，2表示第二个，以此类推。
+//// 当然，数量很多的时候，使用switch会更好。这里判断是第几个标志，然后对应添加不同的模型。如果需要使用非Unity原生模型，使用GameObject.Find方法获取模型对象即可。
+//        if (mTargetCounter == 1) {
+//            GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
+//            cube.name = "mycube";
+//            cube.transform.parent = imageTargetCopy.transform;
+//            cube.transform.localScale = new Vector3 (0.25f, 0.25f, 0.25f);
+//            cube.transform.localPosition = new Vector3 (0, 0, 0);
+//            cube.transform.localRotation = Quaternion.identity;
+//        }  else if (mTargetCounter == 2) {
+//            GameObject sphere = GameObject.CreatePrimitive (PrimitiveType.Sphere);
+//            sphere.name = "mySphere";
+//            sphere.transform.parent = imageTargetCopy.transform;
+//            sphere.transform.localScale = new Vector3 (0.25f, 0.25f, 0.25f);
+//            sphere.transform.localPosition = new Vector3 (0, 0, 0);
+//            sphere.transform.localRotation = Quaternion.identity;
+//        }
+//    }
     
 }

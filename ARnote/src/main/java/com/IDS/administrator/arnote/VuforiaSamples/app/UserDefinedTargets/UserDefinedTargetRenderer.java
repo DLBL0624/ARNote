@@ -15,6 +15,7 @@ import android.opengl.Matrix;
 import android.util.Log;
 
 import com.IDS.administrator.arnote.Message;
+import com.IDS.administrator.arnote.MessageManager;
 import com.IDS.administrator.arnote.SampleApplication.SampleAppRenderer;
 import com.IDS.administrator.arnote.SampleApplication.SampleAppRendererControl;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationSession;
@@ -161,14 +162,31 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
 
         // Render the RefFree UI elements depending on the current state
         mActivity.refFreeFrame.render();
-        
-        // Did we find any trackables this frame?
-        for (int tIdx = 0; tIdx < state.getNumTrackableResults(); tIdx++)
+
+
+        int trackableID = 0;
+
+        for (int tIdx = 0; tIdx < state.getNumTrackableResults(); tIdx++)//TrackableResult: the number of trackable target in current shot
         {
             // Get the trackable:
+            //Trackable trackable = state.getTrackable(tId);
+
             TrackableResult trackableResult = state.getTrackableResult(tIdx);
+
+
+            for (int tId = 0; tId < state.getNumTrackables(); tId++)//TrackableResult: the number of trackable target in the database
+            {
+                if(tId == trackableResult.getTrackable().getId())
+                {
+                    trackableID = state.getNumTrackables() - tId;
+                    break;
+                }
+            }
+
+
             Matrix44F modelViewMatrix_Vuforia = Tool
                 .convertPose2GLMatrix(trackableResult.getPose());
+
             float[] modelViewMatrix = modelViewMatrix_Vuforia.getData();
             
             float[] modelViewProjection = new float[16];
@@ -183,6 +201,11 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
             
             GLES20.glUseProgram(shaderProgramID);
 
+            getMessIndes(trackableID);
+
+            Log.d("onCameraClick: ", "renderFrame: tId = " + trackableID);
+            Log.d("onCameraClick: ", "renderFrame: tIdx = " + tIdx);
+            Log.d("onCameraClick: ", "renderFrame: ChangedMessID = " + mess.getIndex());
             loadString(mess);
             for(int t = 0; deCodeString[t]!='\0'; t++) Matrix.translateM(modelViewProjection, 0, -TextSpace/2, 0.0f, 0.0f);
 
@@ -442,6 +465,14 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
             }
         }
         deCodeString[str.length()] = '\0';
+    }
+    public void getMessIndes(int index){
+        for(int i =0;i<MessageManager.messList.size();i++) {
+            if (index == MessageManager.messList.get(i).getIndex())
+            {
+                this.mess = MessageManager.messList.get(i);
+            }
+        }
     }
 
 

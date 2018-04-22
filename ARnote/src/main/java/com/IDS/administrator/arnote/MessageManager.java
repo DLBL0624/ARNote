@@ -10,5 +10,7 @@ public class MessageManager {
 
     public static double longitude;
 
+    public static int index = 0;
+
 }
 
