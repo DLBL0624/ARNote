@@ -1,40 +1,35 @@
 package com.IDS.administrator.arnote;
 
+
 public class Message {
 
     private double locationX; //geography location
     private double locationY; //geography location
     private String mes;
-    private int lefeTime;
+    private int lifeTime;
     //private GLRenderer glr;
-    private float[] _color = new float[4];
+    private int _color;
 
-    /*
-    public final float[] blue = {0.f,0.f,1.0f,1.0f};
-    public final float[] gnree = {0.f,1.f,0.0f,1.0f};
-    public final float[] red = {1.f,0.f,0.0f,1.0f};
-    public final float[] white = {1.f,1.f,1.0f,1.0f};
-    */
 
     public Message()
     {
-        this.lefeTime = 600;
+        this.lifeTime = 600;
     }
 
-    public Message(double locationX, double locationY, String InputMes, int ST, float[] color) {
+    public Message(double locationX, double locationY, String InputMes, int ST, int color) {
         this.locationX = locationX;
         this.locationY = locationY;
         this.mes = InputMes;
-        this.lefeTime = ST;
+        this.lifeTime = ST;
         _color = color;
 
     }
 
-    public Message(double locationX, double locationY, String InputMes, float[] color) {
+    public Message(double locationX, double locationY, String InputMes, int color) {
         this.locationX = locationX;
         this.locationY = locationY;
         this.mes = InputMes;
-        this.lefeTime = 600;
+        this.lifeTime = 600;
         _color = color;
     }
 
@@ -42,12 +37,17 @@ public class Message {
         this.locationX = locationX;
         this.locationY = locationY;
         this.mes = InputMes;
-        this.lefeTime = 600;
+        this.lifeTime = 600;
     }
 
     public void editMessage(String InputMes){
         this.mes = InputMes;
     }
+
+    public void setColor(int color) {this._color = color; }
+
+    public void setLifeTime(int ST) {this.lifeTime = ST;}
+
 
     public String getMessage(){ return this.mes;}
 
@@ -60,7 +60,7 @@ public class Message {
     }
 
 
-    public float[] getColor()
+    public int getColor()
     {
         return this._color;
 

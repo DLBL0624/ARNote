@@ -79,4 +79,41 @@ class Plane extends MeshObject
     {
         return planeIndices.length;
     }
+
+    @Override
+    public Buffer getBuffer(BUFFER_TYPE bufferType, int index)
+    {
+        Buffer result = null;
+        switch (bufferType)
+        {
+            case BUFFER_TYPE_VERTEX:
+                result = verts;
+                break;
+            case BUFFER_TYPE_TEXTURE_COORD:
+                result = textCoords;
+                break;
+            case BUFFER_TYPE_INDICES:
+                result = indices;
+                break;
+            case BUFFER_TYPE_NORMALS:
+                result = norms;
+            default:
+                break;
+        }
+        return result;
+    }
+
+
+    @Override
+    public int getNumObjectVertex(int index)
+    {
+        return planeVertices.length / 3;
+    }
+
+
+    @Override
+    public int getNumObjectIndex(int index)
+    {
+        return planeIndices.length;
+    }
 }

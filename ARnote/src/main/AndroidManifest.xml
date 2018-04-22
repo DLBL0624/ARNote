@@ -30,9 +30,8 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/. 
         -->
-
         <activity
-            android:name="com.IDS.administrator.arnote.VuforiaSamples.ui.ActivityList.ActivitySplashScreen"
+            android:name="com.IDS.administrator.arnote.VuforiaSamples.ui.ActivityList.ActivitySplash"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:screenOrientation="portrait"
             android:noHistory="true"
@@ -42,19 +41,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name="com.IDS.administrator.arnote.VuforiaSamples.ui.ActivityList.ActivityLauncher"
-            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
-            android:screenOrientation="portrait"
-            >
-        </activity>
-        <activity
-            android:name="com.IDS.administrator.arnote.VuforiaSamples.ui.ActivityList.AboutScreen"
-            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
-            android:screenOrientation="portrait"
-            android:noHistory="true"
-            >
         </activity>
         <activity
             android:name="com.IDS.administrator.arnote.VuforiaSamples.app.ImageTargets.ImageTargets"
@@ -112,9 +98,15 @@
             android:launchMode="singleTask"
             >
         </activity>
-
         <activity
             android:name="com.IDS.administrator.arnote.VuforiaSamples.app.ObjectRecognition.ObjectTargets"
+            android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
+            android:theme="@style/SampleAppsTheme"
+            android:launchMode="singleTask"
+            >
+        </activity>
+        <activity
+            android:name="com.IDS.administrator.arnote.Map.MapPane"
             android:configChanges="orientation|keyboardHidden|screenSize|smallestScreenSize"
             android:theme="@style/SampleAppsTheme"
             android:launchMode="singleTask"
@@ -124,15 +116,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <!--
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        -->
     </application>
 
 </manifest>

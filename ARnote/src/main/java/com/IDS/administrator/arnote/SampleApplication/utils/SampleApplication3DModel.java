@@ -9,6 +9,8 @@ countries.
 
 package com.IDS.administrator.arnote.SampleApplication.utils;
 
+import android.content.res.AssetManager;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +18,6 @@ import java.io.InputStreamReader;
 import java.nio.Buffer;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-
-import android.content.res.AssetManager;
 
 
 public class SampleApplication3DModel extends MeshObject
@@ -115,5 +115,39 @@ public class SampleApplication3DModel extends MeshObject
     {
         return 0;
     }
-    
+
+    @Override
+    public Buffer getBuffer(BUFFER_TYPE bufferType, int index)
+    {
+        Buffer result = null;
+        switch (bufferType)
+        {
+            case BUFFER_TYPE_VERTEX:
+                result = verts;
+                break;
+            case BUFFER_TYPE_TEXTURE_COORD:
+                result = textCoords;
+                break;
+            case BUFFER_TYPE_NORMALS:
+                result = norms;
+            default:
+                break;
+        }
+        return result;
+    }
+
+
+    @Override
+    public int getNumObjectVertex(int index)
+    {
+        return numVerts;
+    }
+
+
+    @Override
+    public int getNumObjectIndex(int index)
+    {
+        return 0;
+    }
+
 }

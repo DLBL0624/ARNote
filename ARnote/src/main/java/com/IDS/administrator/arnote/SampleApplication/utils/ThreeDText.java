@@ -1,194 +1,184 @@
 
 package com.IDS.administrator.arnote.SampleApplication.utils;
 
-import com.IDS.administrator.arnote.Message;
-import com.IDS.administrator.arnote.Model;
-import com.IDS.administrator.arnote.STLReader;
-import com.IDS.administrator.arnote.VuforiaSamples.app.UserDefinedTargets.UserDefinedTargets;
-
-import java.io.IOException;
 import java.nio.Buffer;
+import java.util.ArrayList;
 
 public class ThreeDText extends MeshObject
 {
 
-    private Buffer mVertBuff;
-    //private Buffer mTexCoordBuff;
-    private Buffer mNormBuff;
-    private Buffer mIndBuff;
-    private Model[] model;
-    private int indicesNumber = 0;
-    private int verticesNumber = 0;
-    public Message mess;
-    private int[] deCodeString = new int[100];
+    private Buffer[] mVertBuff = new Buffer[52];
+    private Buffer[] mTexCoordBuff = new Buffer[52];
+    private Buffer[] mNormBuff = new Buffer[52];
+    private Buffer[] mIndBuff = new Buffer[52];
+    private ArrayList<float[]> mVert = new ArrayList<float[]>();
+    private ArrayList<float[]> mTexCoord = new ArrayList<float[]>();
+    private ArrayList<float[]> mNorm = new ArrayList<float[]>();
+    private ArrayList<short[]> mInd = new ArrayList<short[]>();
 
-    public ThreeDText(UserDefinedTargets context)
+    private int[] indicesNumber = new int[52];
+    private int[] verticesNumber = new int[52];
+
+    public ThreeDText()
     {
 
-        for (int i =0; i<1; i++) {
-            String str = (char)(97+i)+ "1.stl";
-            try {
-                model[i] = new STLReader().parserBinStlInAssets(context, str);//read alphabet
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            setVerts(model[i].getVerts(),i);
-            setNorms(model[i].getVnorms(),i);
-            setIndices(model[i].getRemarks(),i);
-        }
-
-
     }
 
-    /*
-    public void loadString(Message mes) {
-        String str = mes.getMessage();
-        for (int i = 0; i < str.length(); i++) {
-            switch (str.charAt(i)) {
-                case 'a':
-                    deCodeString[i] = 0;
-                    break;
-                case 'b':
-                    deCodeString[i] = 1;
-                    break;
-                case 'c':
-                    deCodeString[i] = 2;
-                    break;
-                case 'd':
-                    deCodeString[i] = 3;
-                    break;
-                case 'e':
-                    deCodeString[i] = 4;
-                    break;
-                case 'f':
-                    deCodeString[i] = 5;
-                    break;
-                case 'g':
-                    deCodeString[i] = 6;
-                    break;
-                case 'h':
-                    deCodeString[i] = 7;
-                    break;
-                case 'i':
-                    deCodeString[i] = 8;
-                    break;
-                case 'j':
-                    deCodeString[i] = 9;
-                    break;
-                case 'k':
-                    deCodeString[i] = 10;
-                    break;
-                case 'l':
-                    deCodeString[i] = 11;
-                    break;
-                case 'm':
-                    deCodeString[i] = 12;
-                    break;
-                case 'n':
-                    deCodeString[i] = 13;
-                    break;
-                case 'o':
-                    deCodeString[i] = 14;
-                    break;
-                case 'p':
-                    deCodeString[i] = 15;
-                    break;
-                case 'q':
-                    deCodeString[i] = 16;
-                    break;
-                case 'r':
-                    deCodeString[i] = 17;
-                    break;
-                case 's':
-                    deCodeString[i] = 18;
-                    break;
-                case 't':
-                    deCodeString[i] = 19;
-                    break;
-                case 'u':
-                    deCodeString[i] = 20;
-                    break;
-                case 'v':
-                    deCodeString[i] = 21;
-                    break;
-                case 'w':
-                    deCodeString[i] = 22;
-                    break;
-                case 'x':
-                    deCodeString[i] = 23;
-                    break;
-                case 'y':
-                    deCodeString[i] = 24;
-                    break;
-                case 'z':
-                    deCodeString[i] = 25;
-                    break;
-            }
+    public void loadExtraData()
+    {
+        for(int i =0;i<52;i++){
+            setVerts(mVert.get(i),i);
+            setTexCoords(mTexCoord.get(i),i);
+            setNorms(mNorm.get(i),i);
+            setIndices(mInd.get(i),i);
         }
-        deCodeString[str.length()] = '\0';
     }
-    */
+
+
+
+    public void setV(ArrayList<float[]> v)
+    {
+        this.mVert = v;
+    }
+
+    public void setT(ArrayList<float[]> t)
+    {
+        this.mTexCoord = t;
+    }
+
+    public void setN(ArrayList<float[]> n)
+    {
+        this.mNorm = n;
+    }
+    public void setI(ArrayList<short[]> i)
+    {
+        this.mInd = i;
+    }
+
+    public ArrayList<float[]> getV()
+    {
+        return mVert;
+    }
+
+    public ArrayList<float[]> getT()
+    {
+        return mTexCoord;
+    }
+
+    public ArrayList<float[]> getN()
+    {
+        return mNorm;
+    }
+
+    public ArrayList<short[]> getI()
+    {
+        return mInd;
+    }
 
     private void setVerts( float [] STRING_VERIS, int index )
     {
 
-        mVertBuff = fillBuffer(STRING_VERIS);
-        verticesNumber = STRING_VERIS.length / 3;
+        mVertBuff[index] = fillBuffer(STRING_VERIS);
+        verticesNumber[index] = STRING_VERIS.length / 3;
     }
 
 
-//    private void setTexCoords()
-//    {
-//
-//        mTexCoordBuff = fillBuffer(TEAPOT_TEX_COORDS);
-//
-//    }
+    private void setTexCoords( float [] STRING_TEX_COORDS, int index)
+    {
+
+        mTexCoordBuff[index] = fillBuffer(STRING_TEX_COORDS);
+
+    }
 
 
     private void setNorms(float [] STRING_NORMS, int index)
     {
-        mNormBuff = fillBuffer(STRING_NORMS);
+        mNormBuff[index] = fillBuffer(STRING_NORMS);
     }
 
 
     private void setIndices(short [] STRING_INDICES, int index)
     {
-        mIndBuff = fillBuffer(STRING_INDICES);
-        indicesNumber = STRING_INDICES.length;
+        mIndBuff[index] = fillBuffer(STRING_INDICES);
+        indicesNumber[index] = STRING_INDICES.length;
+    }
+
+    @Override
+    public int getNumObjectIndex(int index)
+    {
+        return indicesNumber[index];
     }
 
 
-    public int getNumObjectIndex()
+    @Override
+    public int getNumObjectVertex(int index)
+    {
+        return verticesNumber[index];
+    }
+
+    public Buffer[] getmVertBuff(){ return mVertBuff;}
+    public Buffer[] getmTexCoordBuff(){ return mTexCoordBuff;}
+    public Buffer[] getmNormBuff(){ return mNormBuff;}
+    public Buffer[] getmIndBuff(){ return mIndBuff;}
+
+    public int[] getNumIndex()
     {
         return indicesNumber;
+    }
+    public int[] getNumVertex()
+    {
+        return verticesNumber;
+    }
+
+    public void setmVertBuff(Buffer[] mVertBuff){ this.mVertBuff = mVertBuff;}
+    public void setmTexCoordBuff(Buffer[] mTexCoordBuff){ this.mTexCoordBuff = mTexCoordBuff;}
+    public void setmNormBuff(Buffer[] mNormBuff){ this.mNormBuff =  mNormBuff;}
+    public void setmIndBuff(Buffer[] mIndBuff){ this.mIndBuff =  mIndBuff;}
+
+    public void setNumIndex(int[] indicesNumber)
+    {
+        this. indicesNumber = indicesNumber;
+    }
+    public void setNumVertex(int[] verticesNumber)
+    {
+        this. verticesNumber =  verticesNumber;
+    }
+
+
+
+
+
+    @Override
+    public int getNumObjectIndex()
+    {
+        return indicesNumber[0];
     }
 
 
     @Override
     public int getNumObjectVertex()
     {
-        return verticesNumber;
+        return verticesNumber[0];
     }
 
 
     @Override
-    public Buffer getBuffer(BUFFER_TYPE bufferType)
+    public Buffer getBuffer(BUFFER_TYPE bufferType, int index)
     {
         Buffer result = null;
         switch (bufferType)
         {
             case BUFFER_TYPE_VERTEX:
-                result = mVertBuff;
+                result = mVertBuff[index];
                 break;
-//            case BUFFER_TYPE_TEXTURE_COORD:
-//                result = mTexCoordBuff;
-//                break;
+            case BUFFER_TYPE_TEXTURE_COORD:
+                result = mTexCoordBuff[index];
+                break;
             case BUFFER_TYPE_NORMALS:
-                result = mNormBuff;
+                result = mNormBuff[index];
                 break;
             case BUFFER_TYPE_INDICES:
-                result = mIndBuff;
+                result = mIndBuff[index];
             default:
                 break;
 
@@ -197,4 +187,28 @@ public class ThreeDText extends MeshObject
         return result;
     }
 
+    @Override
+    public Buffer getBuffer(BUFFER_TYPE bufferType)
+    {
+        Buffer result = null;
+        switch (bufferType)
+        {
+            case BUFFER_TYPE_VERTEX:
+                result = mVertBuff[0];
+                break;
+            case BUFFER_TYPE_TEXTURE_COORD:
+                result = mTexCoordBuff[0];
+                break;
+            case BUFFER_TYPE_NORMALS:
+                result = mNormBuff[0];
+                break;
+            case BUFFER_TYPE_INDICES:
+                result = mIndBuff[0];
+            default:
+                break;
+
+        }
+
+        return result;
+    }
 }

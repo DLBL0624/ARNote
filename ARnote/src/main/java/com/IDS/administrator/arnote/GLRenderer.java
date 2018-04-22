@@ -20,9 +20,8 @@ public class GLRenderer implements GLSurfaceView.Renderer {
     private float mScalef = 1f;
     private float mDegree = 0;
     private int[] deCodeString = new int[100];
-    private float[] color = {0.f,1.f,0.0f,1.0f};
 
-    public Message mes = new Message(0,0,"helloworld",color);
+    public Message mes = new Message(0,0,"helloworld",0);
 
 
     public GLRenderer(Context context) {
@@ -30,7 +29,7 @@ public class GLRenderer implements GLSurfaceView.Renderer {
         for (int i =0; i<26; i++) {
             String str = (char)(97+i)+ "1.stl";
             try {
-                model[i] = new STLReader().parserBinStlInAssets(context, str);//read alphabet
+                model[i] = new OBJReader().parserBinStlInAssets(context, str);//read alphabet
 
             } catch (IOException e) {
                 e.printStackTrace();

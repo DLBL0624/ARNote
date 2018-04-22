@@ -13,6 +13,7 @@ package com.IDS.administrator.arnote.VuforiaSamples.app.UserDefinedTargets;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -26,14 +27,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
+import com.IDS.administrator.arnote.Map.MapPane;
+import com.IDS.administrator.arnote.R;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationControl;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationException;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationSession;
 import com.IDS.administrator.arnote.SampleApplication.utils.LoadingDialogHandler;
 import com.IDS.administrator.arnote.SampleApplication.utils.SampleApplicationGLView;
 import com.IDS.administrator.arnote.SampleApplication.utils.Texture;
+import com.IDS.administrator.arnote.VuforiaSamples.ui.ActivityList.ActivitySplash;
 import com.IDS.administrator.arnote.VuforiaSamples.ui.SampleAppMenu.SampleAppMenu;
 import com.IDS.administrator.arnote.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuGroup;
 import com.IDS.administrator.arnote.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuInterface;
@@ -46,7 +53,6 @@ import com.vuforia.Trackable;
 import com.vuforia.Tracker;
 import com.vuforia.TrackerManager;
 import com.vuforia.Vuforia;
-import com.IDS.administrator.arnote.R;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -73,14 +79,18 @@ public class UserDefinedTargets extends Activity implements
     private RelativeLayout mUILayout;
     private View mBottomBar;
     private View mCameraButton;
-    
+    private View mMessageButton;
+    private View mMapButton;
+
     // Alert dialog for displaying SDK errors
     private AlertDialog mDialog;
     
     int targetBuilderCounter = 1;
     
     DataSet dataSetUserDef = null;
-    
+
+    private int[][] ColorSets = new int [][]{{255,206,155},{167,255,155},{173,150,209},{255,155,192},{155,217,255}};
+
     private GestureDetector mGestureDetector;
     
     private SampleAppMenu mSampleAppMenu;
@@ -105,10 +115,13 @@ public class UserDefinedTargets extends Activity implements
     protected void onCreate(Bundle savedInstanceState)
     {
         Log.d(LOGTAG, "onCreate");
+
+
+
         super.onCreate(savedInstanceState);
-        
+
         vuforiaAppSession = new SampleApplicationSession(this);
-        
+
         vuforiaAppSession
             .initAR(this, ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         
@@ -124,7 +137,28 @@ public class UserDefinedTargets extends Activity implements
 
         addOverlayView(true);
     }
-    
+
+    public void OnMesClick(View view) {
+        if( view.getId()==R.id.m_add) {
+
+        }
+    }
+
+    public void OnAddClick(View view) {
+        if( view.getId()==R.id.m_add) {
+
+        }
+    }
+
+    public void OnMapClick(View view) {
+        if( view.getId()==R.id.m_map) {
+            Intent i = new Intent(UserDefinedTargets.this, MapPane.class);
+            startActivity(i);
+        }
+    }
+
+
+
     // Process Single Tap event to trigger autofocus
     private class GestureListener extends
         GestureDetector.SimpleOnGestureListener
@@ -173,8 +207,16 @@ public class UserDefinedTargets extends Activity implements
     //add Texture to render
     private void loadTextures()
     {
-        mTextures.add(Texture.loadTextureFromApk("TextureTeapotBlue.png",
+        mTextures.add(Texture.loadTextureFromApk("o.png",       //orange
             getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("g.png",       //green
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("p.png",       //purple
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("r.png",       //red
+                getAssets()));
+        mTextures.add(Texture.loadTextureFromApk("b.png",       //blue
+                getAssets()));
     }
     
     
@@ -312,6 +354,24 @@ public class UserDefinedTargets extends Activity implements
     // Initializes AR application components.
     private void initApplicationAR()
     {
+        Intent intent = getIntent();
+        Bundle extras = getIntent().getExtras();
+
+
+//        ArrayList<float[]> mVertBuff = (ArrayList<float[]>)extras.getSerializable("mVertBuff");
+//        ArrayList<float[]> mTexCoordBuff = (ArrayList<float[]>)extras.getSerializable("mTexCoordBuff");
+//        ArrayList<float[]> mNormBuff = (ArrayList<float[]>)extras.getSerializable("mNormBuff");
+//        ArrayList<short[]> mIndBuff = (ArrayList<short[]>)extras.getSerializable("mIndBuff");
+//        int[] verticesNumber = extras.getIntArray("verticesNumber");
+//        int[] indicesNumber = extras.getIntArray("indicesNumber");
+
+        ArrayList<float[]> mVertBuff = ActivitySplash.mVertBuff;
+        ArrayList<float[]> mTexCoordBuff = ActivitySplash.mTexCoordBuff;
+        ArrayList<float[]> mNormBuff = ActivitySplash.mNormBuff;
+        ArrayList<short[]> mIndBuff = ActivitySplash.mIndBuff;
+        int[] verticesNumber = ActivitySplash.verticesNumber;
+        int[] indicesNumber = ActivitySplash.indicesNumber;
+
         // Do application initialization
         refFreeFrame = new RefFreeFrame(this, vuforiaAppSession);
         refFreeFrame.init();// just get the texture
@@ -325,7 +385,15 @@ public class UserDefinedTargets extends Activity implements
         mGlView.init(translucent, depthSize, stencilSize);
         
         mRenderer = new UserDefinedTargetRenderer(this, vuforiaAppSession);
-        //mRenderer.setTextures(mTextures);
+        mRenderer.mThreeDText.setV(mVertBuff);
+        mRenderer.mThreeDText.setT(mTexCoordBuff);
+        mRenderer.mThreeDText.setN(mNormBuff);
+        mRenderer.mThreeDText.setI(mIndBuff);
+        mRenderer.mThreeDText.setNumVertex(verticesNumber);
+        mRenderer.mThreeDText.setNumIndex(indicesNumber);
+        mRenderer.mThreeDText.loadExtraData();
+
+        mRenderer.setTextures(mTextures);//Texture Loading
         mGlView.setRenderer(mRenderer);
     }
     
@@ -357,7 +425,8 @@ public class UserDefinedTargets extends Activity implements
         
         // Gets a reference to the Camera button
         mCameraButton = mUILayout.findViewById(R.id.camera_button);
-        
+        mMessageButton = mUILayout.findViewById(R.id.m_mes);
+        mMapButton = mUILayout.findViewById(R.id.m_map);
         // Gets a reference to the loading dialog container
         loadingDialogHandler.mLoadingDialogContainer = mUILayout
             .findViewById(R.id.loading_layout);
@@ -373,6 +442,11 @@ public class UserDefinedTargets extends Activity implements
     {
         if (isUserDefinedTargetsRunning())
         {
+            //Edit the Message
+            final EditText mEditText = mUILayout.findViewById(R.id.InputMess);
+            String InMessage = mEditText.getText().toString();
+            mRenderer.mess.editMessage(InMessage);
+
             // Shows the loading dialog
             loadingDialogHandler
                 .sendEmptyMessage(LoadingDialogHandler.SHOW_LOADING_DIALOG);
@@ -381,8 +455,76 @@ public class UserDefinedTargets extends Activity implements
             startBuild();
         }
     }
-    
-    
+
+
+
+    //set the lifetime of the message
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.ThreeMins:
+                if (checked)
+                    mRenderer.mess.setLifeTime(180);
+                    break;
+            case R.id.TenMins:
+                if (checked)
+                    mRenderer.mess.setLifeTime(600);
+                    break;
+            case R.id.ThirtyMins:
+                if (checked)
+                    mRenderer.mess.setLifeTime(1800);
+                    break;
+        }
+
+    }
+
+    public void changeTheColor(View v) {
+        if(v.getId() == R.id.colorChange)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Choose Text Object");
+            final String[] strColor = {"Orange", "Green","Purple","Red","Blue"};
+            builder.setSingleChoiceItems(strColor, 1, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int i) {
+                    mRenderer.mess.setColor(i);
+                    Button button = (Button)findViewById(R.id.colorChange);
+
+                    switch(i){
+                        case 0:
+                            button.setForeground(getDrawable(R.color.m_orange));
+                            break;
+                        case 1:
+                            button.setForeground(getDrawable(R.color.m_green));
+                            break;
+                        case 2:
+                            button.setForeground(getDrawable(R.color.m_purple));
+                            break;
+                        case 3:
+                            button.setForeground(getDrawable(R.color.m_red));
+                            break;
+                        case 4:
+                            button.setForeground(getDrawable(R.color.m_blue));
+                            break;
+                    }
+
+                }
+            });
+            builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+
+                }
+            });
+            builder.show();
+        }
+    }
+
+
     // Creates a texture given the filename
     Texture createTexture(String nName)
     {
@@ -411,6 +553,8 @@ public class UserDefinedTargets extends Activity implements
         // Shows the bottom bar
         mBottomBar.setVisibility(View.VISIBLE);
         mCameraButton.setVisibility(View.VISIBLE);
+        mMessageButton.setVisibility(View.VISIBLE);
+        mMapButton.setVisibility(View.VISIBLE);
     }
     
     
@@ -477,7 +621,7 @@ public class UserDefinedTargets extends Activity implements
     }
     
     
-    void startBuild()
+    void startBuild()// track the image
     {
         TrackerManager trackerManager = TrackerManager.getInstance();
         ObjectTracker objectTracker = (ObjectTracker) trackerManager
@@ -498,7 +642,7 @@ public class UserDefinedTargets extends Activity implements
                 do
                 {
                     name = "UserTarget-" + targetBuilderCounter;
-                    Log.d(LOGTAG, "TRYING " + name);
+                    Log.d(LOGTAG, "TRYING " + name);//
                     targetBuilderCounter++;
                 } while (!targetBuilder.build(name, 320.0f));
 
@@ -917,5 +1061,6 @@ public class UserDefinedTargets extends Activity implements
         
         return result;
     }
+
     
 }
