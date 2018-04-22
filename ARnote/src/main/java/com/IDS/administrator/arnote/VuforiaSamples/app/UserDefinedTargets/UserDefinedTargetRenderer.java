@@ -30,7 +30,6 @@ import com.vuforia.Tool;
 import com.vuforia.TrackableResult;
 import com.vuforia.Vuforia;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -59,8 +58,8 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
     private int textureCoordHandle;
     private int mvpMatrixHandle;
     private int texSampler2DHandle;
-    public ArrayList<Message> messLink;
-    public Message mess = new Message(0,0,"I LOVE YOU",GREEN);
+
+    public Message mess = new Message(0,0,"I LOVE YOU",ORANGE);
     private int[] deCodeString = new int[100];
 
     // Constants:

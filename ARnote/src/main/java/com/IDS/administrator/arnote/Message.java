@@ -59,6 +59,14 @@ public class Message {
         return locationY;
     }
 
+    public void setLocationX(double locationX) {
+        this.locationX = locationX;
+    }
+
+    public void setLocationY(double locationY) {
+        this.locationY = locationY;
+    }
+
 
     public int getColor()
     {

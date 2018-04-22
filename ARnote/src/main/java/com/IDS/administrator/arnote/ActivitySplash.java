@@ -7,15 +7,19 @@ Vuforia is a trademark of PTC Inc., registered in the United States and other
 countries.
 ===============================================================================*/
 
-package com.IDS.administrator.arnote.VuforiaSamples.ui.ActivityList;
+package com.IDS.administrator.arnote;
 
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup.LayoutParams;
@@ -24,17 +28,13 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.IDS.administrator.arnote.Model;
-import com.IDS.administrator.arnote.OBJReader;
-import com.IDS.administrator.arnote.R;
 import com.IDS.administrator.arnote.SampleApplication.utils.ThreeDText;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class ActivitySplash extends Activity
-{
+public class ActivitySplash extends Activity {
 
     private static long SPLASH_MILLIS = 450;
 
@@ -50,15 +50,12 @@ public class ActivitySplash extends Activity
     public static int[] verticesNumber = new int[53];
     public Model[] model = new Model[53];
 
-    String[] mutiPermissions = new String[]{Manifest.permission.CAMERA,Manifest.permission.ACCESS_FINE_LOCATION};
+
+    String[] mutiPermissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION};
     ArrayList<String> needRequest = new ArrayList<>();
 
-
-
-    public final static int REQUEST_CODE_CAMERA = 624;
-    public final static int REQUEST_CODE_MAP = 519;
     public final static int REQUEST_CODE_ASK_MUTI_PERMISSIONS = 928;
-//
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,60 +85,74 @@ public class ActivitySplash extends Activity
             requestPermissions(needRequest.toArray(new String[needRequest.size()]), REQUEST_CODE_ASK_MUTI_PERMISSIONS);
 
         } else {
+
+            LocationManager locationManager = (LocationManager)
+                    getSystemService(Context.LOCATION_SERVICE);
+
+            //remove all existed message marker
+
+            Criteria criteria = new Criteria();
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            Location location = locationManager.getLastKnownLocation(locationManager
+                    .getBestProvider(criteria, false));
+            MessageManager.latitude = location.getLatitude();
+            MessageManager.longitude = location.getLongitude();
+
             startARActivity();
         }
-
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_ASK_MUTI_PERMISSIONS) {
+            if (grantResults.length > 0) {
+                // list of permission denied
+                ArrayList<String> deniedPermissions = new ArrayList<>();
 
-        switch (requestCode) {//根据请求码判断是哪一次申请的权限
-            case REQUEST_CODE_CAMERA:
-                if (grantResults.length > 0) {//grantResults 数组中存放的是授权结果
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//同意授权
-                        //授权后做一些你想做的事情，即原来不需要动态授权时做的操作
-
-                    }else {//用户拒绝授权
-                        //可以简单提示用户
-                        Toast.makeText(ActivitySplash.this, "Need Camera permission", Toast.LENGTH_SHORT).show();
+                for (int i = 0; i < grantResults.length; i++) {
+                    if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                        deniedPermissions.add(permissions[i]);
+                        Log.d("RuntimePermissionDemo", "Denied Permission: " + permissions[i]);
                     }
                 }
-                break;
-            case REQUEST_CODE_MAP:
-                if (grantResults.length > 0) {//grantResults 数组中存放的是授权结果
-                    if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//同意授权
-                        //授权后做一些你想做的事情，即原来不需要动态授权时做的操作
+                if (deniedPermissions.size() <= 0) {
+                    LocationManager locationManager = (LocationManager)
+                            getSystemService(Context.LOCATION_SERVICE);
 
-                    }else {//用户拒绝授权
-                        //可以简单提示用户
-                        Toast.makeText(ActivitySplash.this, "Need Location permission", Toast.LENGTH_SHORT).show();
+                    //remove all existed message marker
+
+                    Criteria criteria = new Criteria();
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
                     }
+                    Location location = locationManager.getLastKnownLocation(locationManager
+                            .getBestProvider(criteria, false));
+                    MessageManager.latitude = location.getLatitude();
+                    MessageManager.longitude = location.getLongitude();
+
+                    startARActivity();
+                } else {
+                    Toast.makeText(ActivitySplash.this, "Missing part of permission", Toast.LENGTH_SHORT).show();
+
                 }
-                break;
-            case REQUEST_CODE_ASK_MUTI_PERMISSIONS:
-                if (grantResults.length > 0) {
-                    // list of permission denied
-                    ArrayList<String> deniedPermissions = new ArrayList<>();
-
-                    for (int i=0; i<grantResults.length; i++) {
-                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                            deniedPermissions.add(permissions[i]);
-                            Log.d("RuntimePermissionDemo", "Denied Permission: " + permissions[i]);
-                        }
-                    }
-                    if (deniedPermissions.size() <= 0) {//已全部授权
-                        //MapPane.mMap.setMyLocationEnabled(true);
-                        startARActivity();
-                    }else {//没有全部授权
-                        Toast.makeText(ActivitySplash.this, "Missing part of permission", Toast.LENGTH_SHORT).show();
-
-
-                    }
-                }
-
-                break;
-            default: super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
         }
     }
 

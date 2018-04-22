@@ -33,6 +33,7 @@ import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
 import com.IDS.administrator.arnote.Map.MapPane;
+import com.IDS.administrator.arnote.MessageManager;
 import com.IDS.administrator.arnote.R;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationControl;
 import com.IDS.administrator.arnote.SampleApplication.SampleApplicationException;
@@ -40,7 +41,7 @@ import com.IDS.administrator.arnote.SampleApplication.SampleApplicationSession;
 import com.IDS.administrator.arnote.SampleApplication.utils.LoadingDialogHandler;
 import com.IDS.administrator.arnote.SampleApplication.utils.SampleApplicationGLView;
 import com.IDS.administrator.arnote.SampleApplication.utils.Texture;
-import com.IDS.administrator.arnote.VuforiaSamples.ui.ActivityList.ActivitySplash;
+import com.IDS.administrator.arnote.ActivitySplash;
 import com.IDS.administrator.arnote.VuforiaSamples.ui.SampleAppMenu.SampleAppMenu;
 import com.IDS.administrator.arnote.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuGroup;
 import com.IDS.administrator.arnote.VuforiaSamples.ui.SampleAppMenu.SampleAppMenuInterface;
@@ -446,6 +447,9 @@ public class UserDefinedTargets extends Activity implements
             final EditText mEditText = mUILayout.findViewById(R.id.InputMess);
             String InMessage = mEditText.getText().toString();
             mRenderer.mess.editMessage(InMessage);
+            mRenderer.mess.setLocationX(MessageManager.latitude);
+            mRenderer.mess.setLocationY(MessageManager.longitude);
+            MessageManager.messList.add(mRenderer.mess);
 
             // Shows the loading dialog
             loadingDialogHandler
