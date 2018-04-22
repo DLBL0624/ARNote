@@ -965,7 +965,7 @@ public class UserDefinedTargets extends Activity implements
             // Clear the oldest target if the dataset is full or the dataset
             // already contains five user-defined targets.
             if (dataSetUserDef.hasReachedTrackableLimit()
-                || dataSetUserDef.getNumTrackables() >= 5)//image target storage limited
+                || dataSetUserDef.getNumTrackables() >= 10)//image target storage limited
                 dataSetUserDef.destroy(dataSetUserDef.getTrackable(0));// destroy the first trackable thing
             
             if (mExtendedTracking && dataSetUserDef.getNumTrackables() > 0)
@@ -1080,79 +1080,5 @@ public class UserDefinedTargets extends Activity implements
         return result;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    /// <summary>
-    /// Takes a new trackable source and adds it to the dataset
-    /// This gets called automatically as soon as you 'BuildNewTarget with UserDefinedTargetBuildingBehaviour
-    /// </summary>
-//    public void OnNewTrackableSource(TrackableSource trackableSource)
-//    {
-//        mTargetCounter++;
-//
-//        // deactivates the dataset first
-//        mObjectTracker.DeactivateDataSet(mBuiltDataSet);
-//
-//        // Destroy the oldest target if the dataset is full or the dataset
-//        // already contains five user-defined targets.
-//        if (mBuiltDataSet.HasReachedTrackableLimit() || mBuiltDataSet.GetTrackables().Count() >= 5)
-//        {
-//            IEnumerable<Trackable> trackables = mBuiltDataSet.GetTrackables();
-//            Trackable oldest = null;
-//            foreach (Trackable trackable in trackables)
-//            if (oldest == null || trackable.ID < oldest.ID)
-//                oldest = trackable;
-//
-//            if (oldest != null)
-//            {
-//                Debug.Log("Destroying oldest trackable in UDT dataset: " + oldest.Name);
-//                mBuiltDataSet.Destroy(oldest, true);
-//            }
-//        }
-//        // get predefined trackable and instantiate it
-//        //
-//        ImageTargetBehaviour imageTargetCopy = (ImageTargetBehaviour)Instantiate(ImageTargetTemplate);
-//        imageTargetCopy.gameObject.name = "UserDefinedTarget-" + mTargetCounter;
-//
-//        // add the duplicated trackable to the data set and activate it
-//        mBuiltDataSet.CreateTrackable(trackableSource, imageTargetCopy.gameObject);
-//
-//        // activate the dataset again
-//        mObjectTracker.ActivateDataSet(mBuiltDataSet);
-//
-//        //Extended Tracking with user defined targets only works with the most recently defined target.
-//        //If tracking is enabled on previous target, it will not work on newly defined target.
-//        //Don't need to call this if you don't care about extended tracking.
-//        StopExtendedTracking();
-//        mObjectTracker.Stop();
-//        mObjectTracker.ResetExtendedTracking();
-//        mObjectTracker.Start();
-//// 根据mTargetCounter 判断是第几个Target，1表示第一个，2表示第二个，以此类推。
-//// 当然，数量很多的时候，使用switch会更好。这里判断是第几个标志，然后对应添加不同的模型。如果需要使用非Unity原生模型，使用GameObject.Find方法获取模型对象即可。
-//        if (mTargetCounter == 1) {
-//            GameObject cube = GameObject.CreatePrimitive (PrimitiveType.Cube);
-//            cube.name = "mycube";
-//            cube.transform.parent = imageTargetCopy.transform;
-//            cube.transform.localScale = new Vector3 (0.25f, 0.25f, 0.25f);
-//            cube.transform.localPosition = new Vector3 (0, 0, 0);
-//            cube.transform.localRotation = Quaternion.identity;
-//        }  else if (mTargetCounter == 2) {
-//            GameObject sphere = GameObject.CreatePrimitive (PrimitiveType.Sphere);
-//            sphere.name = "mySphere";
-//            sphere.transform.parent = imageTargetCopy.transform;
-//            sphere.transform.localScale = new Vector3 (0.25f, 0.25f, 0.25f);
-//            sphere.transform.localPosition = new Vector3 (0, 0, 0);
-//            sphere.transform.localRotation = Quaternion.identity;
-//        }
-//    }
     
 }

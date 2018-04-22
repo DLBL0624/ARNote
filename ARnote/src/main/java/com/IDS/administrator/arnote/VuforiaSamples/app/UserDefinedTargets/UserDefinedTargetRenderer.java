@@ -201,7 +201,13 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
             
             GLES20.glUseProgram(shaderProgramID);
 
-            getMessIndes(trackableID);
+            if(trackableID==state.getNumTrackables()-1)
+            {
+                getMessIndes(trackableID,false);
+            }
+            else{
+                getMessIndes(trackableID,true);
+            }
 
             Log.d("onCameraClick: ", "renderFrame: tId = " + trackableID);
             Log.d("onCameraClick: ", "renderFrame: tIdx = " + tIdx);
@@ -466,13 +472,15 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
         }
         deCodeString[str.length()] = '\0';
     }
-    public void getMessIndes(int index){
-        for(int i =0;i<MessageManager.messList.size();i++) {
-            if (index == MessageManager.messList.get(i).getIndex())
-            {
-                this.mess = MessageManager.messList.get(i);
+    public void getMessIndes(int index, boolean inverse){
+
+            for(int i =0;i<MessageManager.messList.size();i++) {
+                if (index == MessageManager.messList.get(i).getIndex())
+                {
+                    if(inverse){this.mess = MessageManager.messList.get(MessageManager.messList.size() -1);}
+                    else{this.mess = MessageManager.messList.get(MessageManager.messList.size() -1 - index);}
+                }
             }
-        }
     }
 
 
