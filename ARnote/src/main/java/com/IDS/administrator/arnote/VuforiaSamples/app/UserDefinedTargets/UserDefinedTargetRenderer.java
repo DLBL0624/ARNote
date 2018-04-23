@@ -183,7 +183,6 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
                 }
             }
 
-
             Matrix44F modelViewMatrix_Vuforia = Tool
                 .convertPose2GLMatrix(trackableResult.getPose());
 
@@ -214,9 +213,8 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
             Log.d("onCameraClick: ", "renderFrame: ChangedMessID = " + mess.getIndex());
             loadString(mess);
             for(int t = 0; deCodeString[t]!='\0'; t++) Matrix.translateM(modelViewProjection, 0, -TextSpace/2, 0.0f, 0.0f);
-
             for(int t = 0; deCodeString[t]!='\0'; t++) {
-                //TEAPOT @ToDO THREEdTEXT
+
                 if(deCodeString[t]!=53)GLES20.glVertexAttribPointer(vertexHandle, 3, GLES20.GL_FLOAT,
                         false, 0, mThreeDText.getVertices(deCodeString[t]));
 
@@ -230,13 +228,11 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
                 GLES20.glActiveTexture(GLES20.GL_TEXTURE0);
                 GLES20.glBindTexture(GLES20.GL_TEXTURE_2D,
                         mTextures.get(mess.getColor()).mTextureID[0]);
-                Matrix.translateM(modelViewProjection, 0, deCodeString[t]==53?TextSpace/2:TextSpace, 0.0f, 0.0f);
+                Matrix.translateM(modelViewProjection, 0, deCodeString[t]==53?TextSpace/2:TextSpace, 0.0f, 0.0f);//Character No.53 is the space
                 GLES20.glUniformMatrix4fv(mvpMatrixHandle, 1, false,
                         modelViewProjection, 0);
                 GLES20.glUniform1i(texSampler2DHandle, 0);
 
-
-                //Matrix.scaleM(mMatrixCurrent,0,3.0f,2.0f,3.0f);
                 if(deCodeString[t]!=53)GLES20.glDrawElements(GLES20.GL_TRIANGLES,
                         mThreeDText.getNumObjectIndex(deCodeString[t]), GLES20.GL_UNSIGNED_SHORT,
                         mThreeDText.getIndices(deCodeString[t]));
@@ -300,6 +296,7 @@ public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, Sample
 
         mTextures = textures;
    }
+
 
 
     public void loadString(Message mes) {

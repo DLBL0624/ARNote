@@ -10,24 +10,15 @@
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="570dp"
         tools:context=".Map.MapsActivity" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_weight="1"
         android:background="@color/m_orange"
         android:orientation="horizontal">
-
-        <ImageButton
-            android:id="@+id/m_mes"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="OnMesClick"
-            app:srcCompat="@drawable/menu_mes" />
 
         <ImageButton
             android:id="@+id/m_add"
@@ -36,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="OnAddClick"
-            app:srcCompat="@drawable/menu_add" />
+            android:src="@drawable/menu_add" />
 
         <ImageButton
             android:id="@+id/m_map"
@@ -45,7 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="OnMapClick"
-            app:srcCompat="@drawable/menu_map" />
+            android:src="@drawable/menu_map" />
 
     </LinearLayout>
 </LinearLayout>

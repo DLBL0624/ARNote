@@ -25,7 +25,7 @@
     <LinearLayout
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="182dp"
+        android:layout_height="144dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@color/transparent"
@@ -37,7 +37,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#9996d0c7"
+            android:background="#cc9bd9ff"
             android:orientation="vertical">
 
             <LinearLayout
@@ -53,18 +53,21 @@
                     android:layout_weight="1"
                     android:contentDescription="Text"
                     android:gravity="center_vertical"
-
-                    android:paddingLeft="4dp"
+                    android:textColor="@color/white"
+                    android:paddingLeft="10dp"
                     android:text="Text"
                     android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/colorChange"
                     style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="44dp"
-                    android:layout_height="24dp"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_margin="2dp"
+                    android:background="@color/white"
                     android:foreground="@color/m_orange"
-                    android:onClick="changeTheColor" />
+                    android:onClick="changeTheColor"
+                    android:padding="@dimen/menu_activities_list_padding_top_down" />
 
                 <EditText
                     android:id="@+id/InputMess"
@@ -73,60 +76,10 @@
                     android:layout_weight="1"
                     android:ems="10"
                     android:inputType="text"
+                    android:backgroundTint="@color/white"
                     android:singleLine="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textCursorDrawable="@null" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/LifeTime"
-                    android:layout_width="176dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="4dp"
-                    android:text="LifeTime"
-                    android:textSize="18sp" />
-
-                <RadioGroup
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <RadioButton
-                        android:id="@+id/ThreeMins"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="onRadioButtonClicked"
-                        android:text="3 mins"
-                        android:textSize="14sp" />
-
-                    <RadioButton
-                        android:id="@+id/TenMins"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="onRadioButtonClicked"
-                        android:text="10 mins"
-                        android:textSize="14sp" />
-
-                    <RadioButton
-                        android:id="@+id/ThirtyMins"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:onClick="onRadioButtonClicked"
-                        android:text="30 mins"
-                        android:textSize="14sp" />
-
-                </RadioGroup>
             </LinearLayout>
 
             <ImageButton
@@ -134,6 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="62dp"
                 android:layout_centerHorizontal="true"
+                android:visibility="visible"
                 android:layout_gravity="center"
                 android:background="@color/transparent"
                 android:contentDescription="@string/content_desc_camera_button"
@@ -149,31 +103,26 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/m_mes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_weight="1"
-                    android:onClick="OnMesClick"
-                    app:srcCompat="@drawable/menu_mes" />
-
-                <ImageButton
                     android:id="@+id/m_add"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:visibility="visible"
                     android:layout_centerHorizontal="true"
                     android:layout_weight="1"
                     android:onClick="OnAddClick"
-                    app:srcCompat="@drawable/menu_add" />
+                    android:src ="@drawable/menu_add" />
 
                 <ImageButton
                     android:id="@+id/m_map"
+                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:visibility="visible"
                     android:layout_centerHorizontal="true"
                     android:layout_weight="1"
                     android:onClick="OnMapClick"
-                    app:srcCompat="@drawable/menu_map" />
+                    android:src="@drawable/menu_map" />
 
             </LinearLayout>
 

@@ -29,7 +29,6 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 
 import com.IDS.administrator.arnote.ActivitySplash;
@@ -142,12 +141,6 @@ public class UserDefinedTargets extends Activity implements
             "droid");   // Lowercase()
 
         addOverlayView(true);
-    }
-
-    public void OnMesClick(View view) {
-        if( view.getId()==R.id.m_add) {
-
-        }
     }
 
     public void OnAddClick(View view) {
@@ -267,14 +260,6 @@ public class UserDefinedTargets extends Activity implements
             Log.e(LOGTAG, e.getString());
         }
     }
-
-    @Override
-    protected void onStop()
-    {
-        super.onStop();
-
-    }
-    
 
     // The final call you receive before your activity is destroyed.
     @Override
@@ -432,7 +417,6 @@ public class UserDefinedTargets extends Activity implements
         
         // Gets a reference to the Camera button
         mCameraButton = mUILayout.findViewById(R.id.camera_button);
-        mMessageButton = mUILayout.findViewById(R.id.m_mes);
         mMapButton = mUILayout.findViewById(R.id.m_map);
         // Gets a reference to the loading dialog container
         loadingDialogHandler.mLoadingDialogContainer = mUILayout
@@ -471,30 +455,6 @@ public class UserDefinedTargets extends Activity implements
             // Builds the new target
             startBuild();
         }
-    }
-
-
-
-    //set the lifetime of the message
-    public void onRadioButtonClicked(View view) {
-        boolean checked = ((RadioButton) view).isChecked();
-
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.ThreeMins:
-                if (checked)
-                    mess.setLifeTime(180);
-                    break;
-            case R.id.TenMins:
-                if (checked)
-                    mess.setLifeTime(600);
-                    break;
-            case R.id.ThirtyMins:
-                if (checked)
-                    mess.setLifeTime(1800);
-                    break;
-        }
-
     }
 
     public void changeTheColor(View v) {

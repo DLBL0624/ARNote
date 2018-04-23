@@ -123,13 +123,6 @@ public class MapPane extends FragmentActivity implements OnMapReadyCallback {
     }
 
 
-
-    public void OnMesClick(View view) {
-        if( view.getId()==R.id.m_add) {
-
-        }
-    }
-
     public void OnAddClick(View view) {
         if( view.getId()==R.id.m_add) {
             Intent i = new Intent(MapPane.this, UserDefinedTargets.class);
