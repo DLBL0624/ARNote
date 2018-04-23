@@ -267,6 +267,13 @@ public class UserDefinedTargets extends Activity implements
             Log.e(LOGTAG, e.getString());
         }
     }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+
+    }
     
 
     // The final call you receive before your activity is destroyed.

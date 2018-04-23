@@ -12,5 +12,11 @@ public class MessageManager {
 
     public static int index = 0;
 
+    public static void reorderMessage()
+    {
+        for(int i =0; i<messList.size();i++) if(messList.get(i).getIndex()!=i)messList.get(i).setIndex(i);
+        index = messList.size()-1;
+    }
+
 }
 
