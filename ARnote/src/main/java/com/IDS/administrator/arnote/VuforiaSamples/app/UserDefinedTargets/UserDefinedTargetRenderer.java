@@ -37,6 +37,9 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 
+
+
+
 // The renderer class for the ImageTargetsBuilder sample. 
 public class UserDefinedTargetRenderer implements GLSurfaceView.Renderer, SampleAppRendererControl
 {
